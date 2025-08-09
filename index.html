@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background: #f5f7fa;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-weight: 700;
+      margin-bottom: 0.2em;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 2em;
+      font-size: 1.2em;
+      color: #555;
+    }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 250px;
+    }
+    a {
+      display: block;
+      padding: 12px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      background: #0073b1; /* default LinkedIn blue */
+      color: white;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+    a.substack {
+      background: #ff6719;
+    }
+    a.photos {
+      background: #4a90e2;
+    }
+    a.github {
+      background: #333;
+    }
+    a:hover {
+      filter: brightness(0.85);
+    }
+    footer {
+      margin-top: 4em;
+      font-size: 0.8em;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kenneth Mitchell</h1>
+  <p>Welcome to my page — find me here:</p>
+  <div class="links">
+    <a href="https://www.linkedin.com/in/kenneth-w-mitchell" target="_blank" rel="noopener" >LinkedIn</a>
+    <a href="https://substack.com/@thoughtsfromken" target="_blank" rel="noopener" class="substack">Substack</a>
+    <a href="https://www.instagram.com/shots_by_ken/" target="_blank" rel="noopener" class="photos">Photos</a>
+    <a href="https://github.com/Kenneth-Mitchell" target="_blank" rel="noopener" class="github">GitHub</a>
+  </div>
+  <footer>© 2025 Kenneth Mitchell</footer>
+</body>
+</html>
