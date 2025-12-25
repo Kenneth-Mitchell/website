@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>Stuff I Like | Kenneth Mitchell</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: monospace;
+      font-size: 15px;
+      background: #0d0d0d;
+      color: #d4a55c;
+      min-height: 100vh;
+      padding: 32px;
+      line-height: 1.6;
+    }
+    .header {
+      margin-bottom: 32px;
+    }
+    .path {
+      font-size: 15px;
+      color: #7a6840;
+      margin-bottom: 4px;
+    }
+    .path a {
+      color: #7a6840;
+      text-decoration: none;
+    }
+    .path a:hover {
+      color: #d4a55c;
+    }
+    h1 {
+      font-size: 15px;
+      font-weight: normal;
+      color: #e8c584;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 180px));
+      gap: 24px;
+    }
+    .item {
+      cursor: pointer;
+    }
+    .item-image {
+      background: #1a1612;
+      border: 1px solid #2a2418;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+    .item:hover .item-image {
+      border-color: #d4a55c;
+    }
+    .item-image img {
+      display: block;
+      width: 100%;
+      height: auto;
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+    }
+    .item:hover .item-image img {
+      opacity: 1;
+    }
+    .item-title {
+      font-size: 13px;
+      color: #d4a55c;
+      margin-top: 8px;
+      transition: color 0.2s ease;
+    }
+    .item:hover .item-title {
+      color: #ffe6a8;
+    }
+    .item-type {
+      font-size: 11px;
+      color: #5c4a2a;
+    }
+    .item-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .item:hover .item-details {
+      max-height: 200px;
+      padding-top: 8px;
+    }
+    .item-details p {
+      font-size: 13px;
+      color: #7a6840;
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.5;
+    }
+    footer {
+      margin-top: 48px;
+      font-size: 13px;
+      color: #5c4a2a;
+    }
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .item-details {
+        max-height: none;
+        padding-top: 8px;
+      }
+      .item-image {
+        min-height: 0 !important;
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="path"><a href="index.html">kenneth</a> / stuff</div>
+    <h1>Stuff I Like</h1>
+  </div>
+  <div class="grid">
+
+    <div class="item">
+      <div class="item-image">
+        <img src="images/outer-wilds.jpg" alt="Outer Wilds">
+      </div>
+      <div class="item-title">Outer Wilds</div>
+      <div class="item-type">game</div>
+      <div class="item-details">
+        <p>A game where you explore an alien solar system and uncover secrets. </p>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-image">
+        <img src="images/children-of-time.jpg" alt="Children of Time">
+      </div>
+      <div class="item-title">Children of Time</div>
+      <div class="item-type">book</div>
+      <div class="item-details">
+        <p>A book about hyperintelligent Spiders and the future of humanity. </p>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-image" style="min-height: 270px; display: flex; align-items: center;">
+        <img src="images/last-of-us-2.jpg" alt="The Last of Us Part 2">
+      </div>
+      <div class="item-title">The Last of Us Part 2</div>
+      <div class="item-type">game</div>
+      <div class="item-details">
+        <p>A game about the cycle of grief, revenge, and forgiveness.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-image">
+        <img src="images/cr-calamity.jpg" alt="Critical Role: EXU Calamity">
+      </div>
+      <div class="item-title">Critical Role: EXU Calamity</div>
+      <div class="item-type">show</div>
+      <div class="item-details">
+        <p>I like a lot of things that Critical Role has done, but this is far and away my favorite. 
+          Some of the best storytelling I've ever seen, and its mostly improvised.
+        </p>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="item-image">
+        <img src="images/protomen.jpg" alt="The Protomen">
+      </div>
+      <div class="item-title">The Protomen</div>
+      <div class="item-type">band</div>
+      <div class="item-details">
+        <p>Really good band. </p>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>

@@ -3,76 +3,161 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Kenneth Mitchell — software engineer at axi.om, working on AI and drug toxicity. Thoughts, photography, and things I like." />
+  <meta property="og:title" content="Kenneth Mitchell" />
+  <meta property="og:description" content="Software engineer at axi.om, working on AI and drug toxicity. Thoughts, photography, and things I like." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <title>Kenneth Mitchell</title>
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      background: #f5f7fa;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+    * {
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: monospace;
+      font-size: 15px;
+      background: #0d0d0d;
+      color: #d4a55c;
+      min-height: 100vh;
+      padding: 32px;
+      line-height: 1.6;
     }
     h1 {
-      font-weight: 700;
-      margin-bottom: 0.2em;
+      font-size: 15px;
+      font-weight: normal;
+      color: #e8c584;
+      margin-bottom: 32px;
     }
-    p {
-      margin-top: 0;
-      margin-bottom: 2em;
-      font-size: 1.2em;
-      color: #555;
-    }
-    .links {
+    nav {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      width: 250px;
+      gap: 4px;
     }
-    a {
+    .nav-item {
+      border-bottom: 1px solid #2a2418;
+      overflow: hidden;
+    }
+    .nav-item a {
       display: block;
-      padding: 12px 20px;
-      text-align: center;
+      color: #d4a55c;
       text-decoration: none;
-      font-weight: 600;
-      background: #0073b1; /* default LinkedIn blue */
-      color: white;
-      border-radius: 6px;
-      transition: background 0.3s ease;
+      padding: 10px 0;
+      transition: padding 0.2s ease;
     }
-    a.thoughts {
-      background: #4a90e2;
+    .nav-item a::before {
+      content: "→ ";
+      color: #5c4a2a;
+      transition: color 0.2s ease;
     }
-    a.shots {
-      background: #8e44ad;
+    .nav-item:hover a {
+      color: #ffe6a8;
+      padding-left: 8px;
     }
-    a.github {
-      background: #333;
+    .nav-item:hover a::before {
+      color: #d4a55c;
     }
-    a:hover {
-      filter: brightness(0.85);
+    .nav-item .detail {
+      max-height: 0;
+      overflow: hidden;
+      color: #7a6840;
+      font-size: 13px;
+      padding-left: 18px;
+      transition: max-height 0.2s ease, padding 0.2s ease;
+    }
+    .nav-item:hover .detail {
+      max-height: 40px;
+      padding-bottom: 10px;
+    }
+    .nav-label {
+      display: block;
+      padding: 10px 0;
+      cursor: default;
+      transition: padding 0.2s ease;
+    }
+    .nav-label::before {
+      content: "→ ";
+      color: #5c4a2a;
+      transition: color 0.2s ease;
+    }
+    .nav-item.expandable:hover .nav-label {
+      color: #ffe6a8;
+      padding-left: 8px;
+    }
+    .nav-item.expandable:hover .nav-label::before {
+      color: #d4a55c;
+    }
+    .subnav {
+      max-height: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding-left: 18px;
+      transition: max-height 0.2s ease, padding 0.2s ease;
+    }
+    .nav-item.expandable:hover .subnav {
+      max-height: 100px;
+      padding-bottom: 10px;
+    }
+    .subnav a {
+      color: #7a6840;
+      text-decoration: none;
+      padding: 4px 0;
+      font-size: 13px;
+      transition: color 0.15s ease;
+    }
+    .subnav a:hover {
+      color: #ffe6a8;
+    }
+    .subnav a::before {
+      content: "· ";
+      color: #5c4a2a;
     }
     footer {
-      margin-top: 4em;
-      font-size: 0.8em;
-      color: #999;
+      margin-top: 48px;
+      font-size: 13px;
+      color: #5c4a2a;
+    }
+    @media (max-width: 600px) {
+      .nav-item .detail {
+        max-height: 40px;
+        padding-bottom: 10px;
+      }
+      .nav-item.expandable .subnav {
+        max-height: 100px;
+        padding-bottom: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <h1>Kenneth Mitchell</h1>
-  <p>Welcome to my page — find me here:</p>
-  <div class="links">
-    <a href="https://www.linkedin.com/in/kenneth-w-mitchell" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://github.com/Kenneth-Mitchell" target="_blank" rel="noopener" class="github">GitHub</a>
-    <a href="https://blog.kenneth-mitchell.com" target="_blank" rel="noopener" class="thoughts">thoughtsbyken</a>
-    <a href="https://www.instagram.com/shots_by_ken/" target="_blank" rel="noopener" class="shots">shotsbyken</a>
-  </div>
-  <footer>© 2025 Kenneth Mitchell</footer>
+  <nav>
+    <div class="nav-item">
+      <a href="now.html">now</a>
+      <div class="detail">what i'm up to</div>
+    </div>
+    <div class="nav-item">
+      <a href="thoughts.html">thoughts</a>
+      <div class="detail">writing & ideas</div>
+    </div>
+    <div class="nav-item">
+      <a href="shots.html">shots</a>
+      <div class="detail">photography</div>
+    </div>
+    <div class="nav-item">
+      <a href="stuff.html">stuff i like</a>
+      <div class="detail">things that resonate</div>
+    </div>
+    <div class="nav-item expandable">
+      <span class="nav-label">links</span>
+      <div class="detail">find me elsewhere</div>
+      <div class="subnav">
+        <a href="https://www.linkedin.com/in/kenneth-w-mitchell" target="_blank" rel="noopener">linkedin</a>
+        <a href="https://github.com/Kenneth-Mitchell" target="_blank" rel="noopener">github</a>
+      </div>
+    </div>
+  </nav>
+  
 </body>
 </html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>Shots | Kenneth Mitchell</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: monospace;
+      font-size: 15px;
+      background: #0d0d0d;
+      color: #d4a55c;
+      min-height: 100vh;
+      padding: 32px;
+      line-height: 1.6;
+    }
+    .header {
+      margin-bottom: 32px;
+    }
+    .path {
+      font-size: 15px;
+      color: #7a6840;
+      margin-bottom: 4px;
+    }
+    .path a {
+      color: #7a6840;
+      text-decoration: none;
+    }
+    .path a:hover {
+      color: #d4a55c;
+    }
+    h1 {
+      font-size: 15px;
+      font-weight: normal;
+      color: #e8c584;
+    }
+    .gallery {
+      column-count: 3;
+      column-gap: 16px;
+      margin-top: 8px;
+    }
+    @media (max-width: 900px) {
+      .gallery { column-count: 2; }
+    }
+    @media (max-width: 500px) {
+      .gallery { column-count: 1; }
+    }
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      cursor: pointer;
+      position: relative;
+    }
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      border: 1px solid #2a2418;
+      transition: border-color 0.2s ease, opacity 0.2s ease;
+    }
+    .gallery-item:hover img {
+      border-color: #d4a55c;
+      opacity: 0.9;
+    }
+    /* Hover caption on thumbnails */
+    .gallery-item .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 10px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      color: #d4a55c;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .gallery-item:hover .caption {
+      opacity: 1;
+    }
+    /* Lightbox for full-res view */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.active {
+      display: flex;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 70vh;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox img.loaded {
+      opacity: 1;
+    }
+    .lightbox .info {
+      margin-top: 20px;
+      text-align: center;
+      max-width: 500px;
+      padding: 0 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox img.loaded ~ .info {
+      opacity: 1;
+    }
+    .lightbox .info .title {
+      color: #d4a55c;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .lightbox .info .description {
+      color: #7a6840;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    /* Loading spinner */
+    .lightbox .loader {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      border: 2px solid #2a2418;
+      border-top-color: #d4a55c;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .lightbox img.loaded ~ .loader {
+      display: none;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    footer {
+      margin-top: 48px;
+      font-size: 13px;
+      color: #5c4a2a;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="path"><a href="index.html">kenneth</a> / shots</div>
+    <h1>Shots</h1>
+  </div>
+  <div class="gallery">
+    <!-- Mixed aspect ratios: portrait (2:3), landscape (3:2), square (1:1) -->
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot1/400/600" data-full="https://picsum.photos/seed/shot1/1200/1800" 
+           data-title="Morning fog on the dock"
+           data-description="Taken at dawn on Lake Crescent in Olympic National Park. I'd been camping nearby and woke up before sunrise to catch the mist rolling off the water. The stillness was unreal—no wind, no sound, just the slow drift of fog across the surface. Sometimes the best shots are the ones you almost sleep through." alt="">
+      <span class="caption">Morning fog on the dock</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot2/600/400" data-full="https://picsum.photos/seed/shot2/1800/1200"
+           data-title="Vintage cars in the snow"
+           data-description="Found these beauties outside an old farmhouse in rural Poland. The owners had been collecting them for decades but never got around to restoring any. There's something poetic about machines built to move, frozen in place." alt="">
+      <span class="caption">Vintage cars in the snow</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot3/400/400" data-full="https://picsum.photos/seed/shot3/1200/1200"
+           data-title="Desert red"
+           data-description="Uluru at golden hour. No amount of photos prepare you for the scale of it. The color shifts constantly as the sun moves—this was maybe 20 minutes before it went full red." alt="">
+      <span class="caption">Desert red</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot4/400/600" data-full="https://picsum.photos/seed/shot4/1200/1800"
+           data-title="Snowy pines"
+           data-description="" alt="">
+      <span class="caption">Snowy pines</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot5/600/400" data-full="https://picsum.photos/seed/shot5/1800/1200"
+           data-title="Country road"
+           data-description="" alt="">
+      <span class="caption">Country road</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot6/400/600" data-full="https://picsum.photos/seed/shot6/1200/1800"
+           data-title="Rail lines"
+           data-description="An abandoned rail bridge in Lithuania. You could walk the tracks for miles without seeing another person. The infrastructure of a former era, slowly being reclaimed." alt="">
+      <span class="caption">Rail lines</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot7/400/400" data-full="https://picsum.photos/seed/shot7/1200/1200"
+           data-title=""
+           data-description="" alt="">
+      <span class="caption"></span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot8/600/400" data-full="https://picsum.photos/seed/shot8/1800/1200"
+           data-title="Winter walk"
+           data-description="" alt="">
+      <span class="caption">Winter walk</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot9/400/600" data-full="https://picsum.photos/seed/shot9/1200/1800"
+           data-title="Workshop tools"
+           data-description="" alt="">
+      <span class="caption">Workshop tools</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot10/400/400" data-full="https://picsum.photos/seed/shot10/1200/1200"
+           data-title="Foggy boats"
+           data-description="" alt="">
+      <span class="caption">Foggy boats</span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot11/400/600" data-full="https://picsum.photos/seed/shot11/1200/1800"
+           data-title=""
+           data-description="" alt="">
+      <span class="caption"></span>
+    </div>
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="https://picsum.photos/seed/shot12/600/400" data-full="https://picsum.photos/seed/shot12/1800/1200"
+           data-title="Sunset surfer"
+           data-description="Last light in Santa Cruz. I sat on the cliff for an hour waiting for someone to paddle out. Worth it." alt="">
+      <span class="caption">Sunset surfer</span>
+    </div>
+  </div>
+
+  <div class="lightbox" onclick="closeLightbox()">
+    <img src="" alt="">
+    <div class="info">
+      <div class="title"></div>
+      <div class="description"></div>
+    </div>
+    <div class="loader"></div>
+  </div>
+
+  <script>
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    const lightboxTitle = lightbox.querySelector('.info .title');
+    const lightboxDesc = lightbox.querySelector('.info .description');
+
+    function openLightbox(item) {
+      const img = item.querySelector('img');
+      const title = img.dataset.title || '';
+      const description = img.dataset.description || '';
+      
+      // Reset state
+      lightboxImg.classList.remove('loaded');
+      lightboxImg.src = '';
+      
+      // Set info
+      lightboxTitle.textContent = title;
+      lightboxDesc.textContent = description;
+      
+      // Load image
+      lightboxImg.src = img.dataset.full;
+      lightboxImg.onload = () => {
+        lightboxImg.classList.add('loaded');
+      };
+      
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>
