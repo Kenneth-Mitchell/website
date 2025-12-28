@@ -162,7 +162,7 @@
               </div>
             `).join('') || '<div class="no-comments">No comments yet.</div>';
         } else {
-          list.innerHTML = '<div class="no-comments">No comments yet. Be the first!</div>';
+          list.innerHTML = '<div class="no-comments">No comments yet.</div>';
         }
       } catch (e) {
         list.innerHTML = '<div class="no-comments">No comments yet.</div>';
@@ -199,7 +199,7 @@
         });
         
         if (res.ok) {
-          status.textContent = 'Comment submitted! Awaiting approval.';
+          status.textContent = 'Submitted. May take a moment to appear.';
           status.className = 'form-status success';
           form.reset();
         } else {

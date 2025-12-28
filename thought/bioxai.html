@@ -150,9 +150,9 @@
         const res = await fetch(`https://cusdis.com/api/open/comments?appId=${CUSDIS_APP_ID}&pageId=${PAGE_ID}`);
         const data = await res.json();
         
+        console.log('Cusdis response:', data); // Debug
         if (data.data && data.data.length > 0) {
           list.innerHTML = data.data
-            .filter(c => c.approved) // Only show approved comments
             .map(c => `
               <div class="comment">
                 <div class="comment-header">
@@ -163,7 +163,7 @@
               </div>
             `).join('') || '<div class="no-comments">No comments yet.</div>';
         } else {
-          list.innerHTML = '<div class="no-comments">No comments yet. Be the first!</div>';
+          list.innerHTML = '<div class="no-comments">No comments yet.</div>';
         }
       } catch (e) {
         list.innerHTML = '<div class="no-comments">No comments yet.</div>';
@@ -200,7 +200,7 @@
         });
         
         if (res.ok) {
-          status.textContent = 'Comment submitted! Awaiting approval.';
+          status.textContent = 'Submitted. May take a moment to appear.';
           status.className = 'form-status success';
           form.reset();
         } else {
