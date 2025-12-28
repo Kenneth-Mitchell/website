@@ -24,6 +24,15 @@
       color: var(--text-muted);
       margin-bottom: 24px;
     }
+    /* Cusdis dark theme overrides */
+    #cusdis_thread {
+      --cusdis-color-text: var(--text);
+      --cusdis-color-bg: var(--bg);
+      --cusdis-color-input-bg: var(--bg-card);
+      --cusdis-color-input-border: var(--border);
+      --cusdis-color-btn-bg: var(--text);
+      --cusdis-color-btn-text: var(--bg);
+    }
   </style>
 </head>
 <body class="pre-decode">
@@ -33,7 +42,7 @@
     <div class="date" data-decode>Dec 2024</div>
   </div>
   <article>
-    <p data-decode>
+    <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </p>
   </article>
@@ -41,22 +50,14 @@
   <!-- Comments Section -->
   <section class="comments">
     <h2 data-decode>Comments</h2>
-    <script src="https://giscus.app/client.js"
-      data-repo="Kenneth-Mitchell/website"
-      data-repo-id="R_kgDOPa8YJg"
-      data-category="General"
-      data-category-id="DIC_kwDOPa8YJs4C0Uf2"
-      data-mapping="pathname"
-      data-strict="1"
-      data-reactions-enabled="1"
-      data-emit-metadata="1"
-      data-input-position="bottom"
-      data-theme="dark"
-      data-lang="en"
-      data-loading="lazy"
-      crossorigin="anonymous"
-      async>
-    </script>
+    <div id="cusdis_thread"
+      data-host="https://cusdis.com"
+      data-app-id="c99591e9-8cd1-4134-8a4b-3916b0c6e9c6"
+      data-page-id="test-article"
+      data-page-url="https://kenneth-mitchell.com/thought/bioxai.html"
+      data-page-title="Test Article"
+    ></div>
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
   </section>
 
   <script src="../decode.js"></script>
