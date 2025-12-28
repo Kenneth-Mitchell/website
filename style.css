@@ -1,0 +1,274 @@
+/* ============================================================
+   Base Styles - Shared across all pages
+   ============================================================ */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Colors (CSS variables for consistency) */
+:root {
+  --bg: #0d0d0d;
+  --text: #d4a55c;
+  --text-light: #e8c584;
+  --text-bright: #ffe6a8;
+  --text-muted: #7a6840;
+  --text-dim: #5c4a2a;
+  --border: #2a2418;
+  --bg-card: #1a1612;
+  --font-mono: monospace;
+  --font-serif: Georgia, "Times New Roman", serif;
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 32px;
+  line-height: 1.6;
+}
+
+/* Page header with breadcrumb */
+.header {
+  margin-bottom: 32px;
+}
+
+.path {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.path a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.path a:hover {
+  color: var(--text);
+}
+
+h1 {
+  font-size: 15px;
+  font-weight: normal;
+  color: var(--text-light);
+}
+
+/* Nav items (used on index, thoughts) */
+.nav-item,
+.post-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.nav-item a,
+.post-item a {
+  display: block;
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 0;
+  transition: padding 0.2s ease;
+}
+
+.nav-item a::before,
+.post-item a::before {
+  content: "→ ";
+  color: var(--text-dim);
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover a,
+.post-item:hover a {
+  color: var(--text-bright);
+  padding-left: 8px;
+}
+
+.nav-item:hover a::before,
+.post-item:hover a::before {
+  color: var(--text);
+}
+
+/* Expandable detail text on hover */
+.nav-item .detail,
+.post-item .meta {
+  max-height: 0;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding-left: 18px;
+  transition: max-height 0.2s ease, padding 0.2s ease;
+}
+
+.nav-item:hover .detail,
+.post-item:hover .meta {
+  max-height: 40px;
+  padding-bottom: 10px;
+}
+
+/* Expandable nav with subnav */
+.nav-label {
+  display: block;
+  padding: 10px 0;
+  cursor: default;
+  transition: padding 0.2s ease;
+}
+
+.nav-label::before {
+  content: "→ ";
+  color: var(--text-dim);
+  transition: color 0.2s ease;
+}
+
+.nav-item.expandable:hover .nav-label {
+  color: var(--text-bright);
+  padding-left: 8px;
+}
+
+.nav-item.expandable:hover .nav-label::before {
+  color: var(--text);
+}
+
+.subnav {
+  max-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-left: 18px;
+  transition: max-height 0.2s ease, padding 0.2s ease;
+}
+
+.nav-item.expandable:hover .subnav {
+  max-height: 100px;
+  padding-bottom: 10px;
+}
+
+.subnav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 4px 0;
+  font-size: 13px;
+  transition: color 0.15s ease;
+}
+
+.subnav a:hover {
+  color: var(--text-bright);
+}
+
+.subnav a::before {
+  content: "· ";
+  color: var(--text-dim);
+}
+
+/* Prose/article content */
+.section-body,
+article {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.75;
+  color: #c9b99a;
+}
+
+.section-body a,
+article a {
+  color: var(--text-light);
+  text-decoration: underline;
+  text-decoration-color: var(--text-dim);
+}
+
+.section-body a:hover,
+article a:hover {
+  text-decoration-color: var(--text-light);
+}
+
+article {
+  max-width: 600px;
+}
+
+article p {
+  margin-bottom: 1.5em;
+}
+
+/* Section layout (now page) */
+.content {
+  max-width: 500px;
+}
+
+.section {
+  margin-bottom: 28px;
+}
+
+.section-title {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.section-body {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* List styling */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 4px 0;
+}
+
+li::before {
+  content: "· ";
+  color: var(--text-dim);
+}
+
+/* Date/meta */
+.date,
+.updated {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.date {
+  font-size: 13px;
+  margin-bottom: 32px;
+}
+
+/* Coming soon placeholder */
+.coming-soon {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* Mobile: always show expandable content */
+@media (max-width: 600px) {
+  .nav-item .detail,
+  .post-item .meta {
+    max-height: 40px;
+    padding-bottom: 10px;
+  }
+  .nav-item.expandable   .subnav {
+    max-height: 100px;
+    padding-bottom: 10px;
+  }
+}
+
+/* === DECODE TRANSITION === */
+.decode-char {
+  display: inline;
+}
+
+/* Hide content until scrambled */
+body.pre-decode [data-decode] {
+  visibility: hidden;
+}
+

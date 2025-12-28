@@ -3,87 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="How I Think About Biology and AI | Kenneth Mitchell" />
+  <meta property="og:description" content="Thoughts on AI and biology." />
   <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
-  <title>How I think about Biology and AI | Kenneth Mitchell</title>
+  <link rel="stylesheet" href="../style.css" />
+  <title>How I Think About Biology and AI | Kenneth Mitchell</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: monospace;
-      font-size: 15px;
-      background: #0d0d0d;
-      color: #d4a55c;
-      min-height: 100vh;
-      padding: 32px;
-      line-height: 1.6;
-    }
-    .header {
-      margin-bottom: 32px;
-    }
-    .path {
-      font-size: 15px;
-      color: #7a6840;
-      margin-bottom: 4px;
-    }
-    .path a {
-      color: #7a6840;
-      text-decoration: none;
-    }
-    .path a:hover {
-      color: #d4a55c;
-    }
     h1 {
       font-size: 18px;
-      font-weight: normal;
-      color: #e8c584;
       margin-bottom: 8px;
     }
-    .date {
-      color: #5c4a2a;
-      font-size: 13px;
-      margin-bottom: 32px;
+    .comments {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
     }
-    /* Reading area - softer for long text */
-    article {
-      max-width: 600px;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 17px;
-      line-height: 1.75;
-      color: #c9b99a;
-    }
-    article p {
-      margin-bottom: 1.5em;
-    }
-    article a {
-      color: #e8c584;
-      text-decoration: underline;
-      text-decoration-color: #5c4a2a;
-    }
-    article a:hover {
-      text-decoration-color: #e8c584;
-    }
-    footer {
-      margin-top: 48px;
-      font-size: 13px;
-      color: #5c4a2a;
-      font-family: monospace;
+    .comments h2 {
+      font-size: 14px;
+      font-weight: normal;
+      color: var(--text-muted);
+      margin-bottom: 24px;
     }
   </style>
 </head>
-<body>
+<body class="pre-decode">
   <div class="header">
-    <div class="path"><a href="../index.html">kenneth</a> / <a href="../thoughts.html">thoughts</a></div>
-    <h1>How I think about Biology and AI</h1>
-    <div class="date">2025.12.04</div>
+    <div class="path" data-decode><a href="../index.html">kenneth</a> / <a href="../thoughts.html">thoughts</a></div>
+    <h1 data-decode>How I Think About Biology and AI</h1>
+    <div class="date" data-decode>Dec 2024</div>
   </div>
   <article>
-    <p>
+    <p data-decode>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </p>
   </article>
-  
+
+  <!-- Comments Section -->
+  <section class="comments">
+    <h2 data-decode>Comments</h2>
+    <script src="https://giscus.app/client.js"
+      data-repo="Kenneth-Mitchell/website"
+      data-repo-id="R_kgDOPa8YJg"
+      data-category="General"
+      data-category-id="DIC_kwDOPa8YJs4C0Uf2"
+      data-mapping="pathname"
+      data-strict="1"
+      data-reactions-enabled="1"
+      data-emit-metadata="1"
+      data-input-position="bottom"
+      data-theme="dark"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </section>
+
+  <script src="../decode.js"></script>
 </body>
 </html>

@@ -3,101 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="Thoughts | Kenneth Mitchell" />
+  <meta property="og:description" content="Writing and ideas." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
   <title>Thoughts | Kenneth Mitchell</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: monospace;
-      font-size: 15px;
-      background: #0d0d0d;
-      color: #d4a55c;
-      min-height: 100vh;
-      padding: 32px;
-      line-height: 1.6;
-    }
-    .header {
-      margin-bottom: 32px;
-    }
-    .path {
-      font-size: 15px;
-      color: #7a6840;
-      margin-bottom: 4px;
-    }
-    .path a {
-      color: #7a6840;
-      text-decoration: none;
-    }
-    .path a:hover {
-      color: #d4a55c;
-    }
-    h1 {
-      font-size: 15px;
-      font-weight: normal;
-      color: #e8c584;
-    }
     .posts {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
-    .post-item {
-      border-bottom: 1px solid #2a2418;
-      overflow: hidden;
-    }
-    .post-item a {
-      display: block;
-      color: #d4a55c;
-      text-decoration: none;
-      padding: 10px 0;
-      transition: padding 0.2s ease;
-    }
-    .post-item a::before {
-      content: "→ ";
-      color: #5c4a2a;
-      transition: color 0.2s ease;
-    }
-    .post-item:hover a {
-      color: #ffe6a8;
-      padding-left: 8px;
-    }
-    .post-item:hover a::before {
-      color: #d4a55c;
-    }
-    .post-item .meta {
-      max-height: 0;
-      overflow: hidden;
-      color: #7a6840;
-      font-size: 13px;
-      padding-left: 18px;
-      transition: max-height 0.2s ease, padding 0.2s ease;
-    }
-    .post-item:hover .meta {
-      max-height: 40px;
-      padding-bottom: 10px;
-    }
-    footer {
-      margin-top: 48px;
-      font-size: 13px;
-      color: #5c4a2a;
-    }
   </style>
 </head>
-<body>
+<body class="pre-decode">
   <div class="header">
-    <div class="path"><a href="index.html">kenneth</a> / thoughts</div>
-    <h1>Thoughts</h1>
+    <div class="path" data-decode><a href="index.html">kenneth</a> / thoughts</div>
+    <h1 data-decode>Thoughts</h1>
   </div>
   <div class="posts">
+    <p class="coming-soon" data-decode>Coming soon.</p>
+    <!-- Hidden until ready:
     <div class="post-item">
-      <a href="thought/bioxai.html">How I think about Biology and AI</a>
-      <div class="meta">2025.12.04</div>
+      <a href="thought/bioxai.html">How I Think About Biology and AI</a>
+      <div class="meta">Dec 2024</div>
     </div>
+    -->
   </div>
-  
+  <script src="decode.js"></script>
 </body>
 </html>

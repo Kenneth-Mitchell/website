@@ -3,82 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="Stuff I Like | Kenneth Mitchell" />
+  <meta property="og:description" content="Things that resonate — games, books, music, shows." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
   <title>Stuff I Like | Kenneth Mitchell</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: monospace;
-      font-size: 15px;
-      background: #0d0d0d;
-      color: #d4a55c;
-      min-height: 100vh;
-      padding: 32px;
-      line-height: 1.6;
-    }
-    .header {
-      margin-bottom: 32px;
-    }
-    .path {
-      font-size: 15px;
-      color: #7a6840;
-      margin-bottom: 4px;
-    }
-    .path a {
-      color: #7a6840;
-      text-decoration: none;
-    }
-    .path a:hover {
-      color: #d4a55c;
-    }
-    h1 {
-      font-size: 15px;
-      font-weight: normal;
-      color: #e8c584;
-    }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 180px));
       gap: 24px;
     }
     .item {
-      cursor: pointer;
+      cursor: default;
     }
     .item-image {
-      background: #1a1612;
-      border: 1px solid #2a2418;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
       overflow: hidden;
       transition: border-color 0.2s ease;
     }
     .item:hover .item-image {
-      border-color: #d4a55c;
+      border-color: var(--text);
+    }
+    .item-image {
+      position: relative;
     }
     .item-image img {
       display: block;
       width: 100%;
       height: auto;
-      opacity: 0.85;
+      opacity: 0;
       transition: opacity 0.2s ease;
     }
-    .item:hover .item-image img {
+    .item-image img.revealed {
+      opacity: 0.85;
+    }
+    .item:hover .item-image img.revealed {
       opacity: 1;
+    }
+    .decode-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      image-rendering: pixelated;
     }
     .item-title {
       font-size: 13px;
-      color: #d4a55c;
+      color: var(--text);
       margin-top: 8px;
       transition: color 0.2s ease;
     }
     .item:hover .item-title {
-      color: #ffe6a8;
+      color: var(--text-bright);
     }
     .item-type {
       font-size: 11px;
-      color: #5c4a2a;
+      color: var(--text-dim);
     }
     .item-details {
       max-height: 0;
@@ -91,14 +75,9 @@
     }
     .item-details p {
       font-size: 13px;
-      color: #7a6840;
-      font-family: Georgia, "Times New Roman", serif;
+      color: var(--text-muted);
+      font-family: var(--font-serif);
       line-height: 1.5;
-    }
-    footer {
-      margin-top: 48px;
-      font-size: 13px;
-      color: #5c4a2a;
     }
     @media (max-width: 600px) {
       .grid {
@@ -109,77 +88,229 @@
         max-height: none;
         padding-top: 8px;
       }
-      .item-image {
-        min-height: 0 !important;
-        display: block !important;
-      }
     }
   </style>
 </head>
-<body>
+<body class="pre-decode">
   <div class="header">
-    <div class="path"><a href="index.html">kenneth</a> / stuff</div>
-    <h1>Stuff I Like</h1>
+    <div class="path" data-decode><a href="index.html">kenneth</a> / stuff</div>
+    <h1 data-decode>Stuff I Like</h1>
   </div>
-  <div class="grid">
+  <div class="grid" id="grid"></div>
 
-    <div class="item">
-      <div class="item-image">
-        <img src="images/outer-wilds.jpg" alt="Outer Wilds">
-      </div>
-      <div class="item-title">Outer Wilds</div>
-      <div class="item-type">game</div>
-      <div class="item-details">
-        <p>A game where you explore an alien solar system and uncover secrets. </p>
-      </div>
-    </div>
+  <script>
+    // ============================================================
+    // STUFF CONFIG - Edit this to manage your items!
+    // ============================================================
+    // Item format: { img, title, type, desc }
+    //   - img:   filename in images/ folder
+    //   - title: name of the thing
+    //   - type:  category (game, book, show, band, etc.)
+    //   - desc:  short description (shows on hover)
+    // ============================================================
 
-    <div class="item">
-      <div class="item-image">
-        <img src="images/children-of-time.jpg" alt="Children of Time">
-      </div>
-      <div class="item-title">Children of Time</div>
-      <div class="item-type">book</div>
-      <div class="item-details">
-        <p>A book about hyperintelligent Spiders and the future of humanity. </p>
-      </div>
-    </div>
+    const stuff = [
+      {
+        img: "outer-wilds.jpg",
+        title: "Outer Wilds",
+        type: "game",
+        desc: "A game where you explore an alien solar system and uncover secrets."
+      },
+      {
+        img: "children-of-time.jpg",
+        title: "Children of Time",
+        type: "book",
+        desc: "A book about hyperintelligent Spiders and the future of humanity."
+      },
+      {
+        img: "last-of-us-2.jpg",
+        title: "The Last of Us Part 2",
+        type: "game",
+        desc: "A game about the cycle of grief, revenge, and forgiveness."
+      },
+      {
+        img: "cr-calamity.jpg",
+        title: "Critical Role: EXU Calamity",
+        type: "show",
+        desc: "I like a lot of things that Critical Role has done, but this is far and away my favorite. Some of the best storytelling I've ever seen, and its mostly improvised."
+      },
+      {
+        img: "protomen.jpg",
+        title: "The Protomen",
+        type: "band",
+        desc: "Really good band."
+      },
+    ];
 
-    <div class="item">
-      <div class="item-image" style="min-height: 270px; display: flex; align-items: center;">
-        <img src="images/last-of-us-2.jpg" alt="The Last of Us Part 2">
-      </div>
-      <div class="item-title">The Last of Us Part 2</div>
-      <div class="item-type">game</div>
-      <div class="item-details">
-        <p>A game about the cycle of grief, revenge, and forgiveness.</p>
-      </div>
-    </div>
+    // ============================================================
+    // Renderer (no need to edit below)
+    // ============================================================
 
-    <div class="item">
-      <div class="item-image">
-        <img src="images/cr-calamity.jpg" alt="Critical Role: EXU Calamity">
-      </div>
-      <div class="item-title">Critical Role: EXU Calamity</div>
-      <div class="item-type">show</div>
-      <div class="item-details">
-        <p>I like a lot of things that Critical Role has done, but this is far and away my favorite. 
-          Some of the best storytelling I've ever seen, and its mostly improvised.
-        </p>
-      </div>
-    </div>
+    // Queue for staggering image decodes
+    let decodeQueue = [];
+    let lastDecodeTime = 0;
+    
+    function getStaggerDelay() {
+      const now = Date.now();
+      if (now - lastDecodeTime > 500) {
+        decodeQueue = [];
+      }
+      lastDecodeTime = now;
+      const delay = decodeQueue.length * 150;
+      decodeQueue.push(1);
+      return delay;
+    }
 
-    <div class="item">
-      <div class="item-image">
-        <img src="images/protomen.jpg" alt="The Protomen">
-      </div>
-      <div class="item-title">The Protomen</div>
-      <div class="item-type">band</div>
+    function createPixelDecode(img, container, staggerDelay = 0) {
+      const rect = img.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      
+      // If dimensions are 0, wait for layout and retry
+      if (width === 0 || height === 0) {
+        requestAnimationFrame(() => createPixelDecode(img, container, staggerDelay));
+        return;
+      }
+      
+      const canvas = document.createElement('canvas');
+      canvas.className = 'decode-canvas';
+      canvas.width = width;
+      canvas.height = height;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      const ctx = canvas.getContext('2d');
+      
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg') || '#0a0a0a';
+      ctx.fillRect(0, 0, width, height);
+      
+      container.appendChild(canvas);
+      
+      setTimeout(() => animatePixelDecode(img, canvas, ctx, width, height), staggerDelay);
+    }
+
+    function posterize(imageData, levels) {
+      const data = imageData.data;
+      const step = 255 / levels;
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] = Math.round(data[i] / step) * step;
+        data[i+1] = Math.round(data[i+1] / step) * step;
+        data[i+2] = Math.round(data[i+2] / step) * step;
+      }
+      return imageData;
+    }
+
+    function animatePixelDecode(img, canvas, ctx, width, height) {
+      const duration = 1800;
+      const startTime = performance.now();
+      const steps = [2, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256, width];
+      
+      // Failsafe: always reveal image after max time
+      const failsafe = setTimeout(() => {
+        img.classList.add('revealed');
+        if (canvas.parentNode) canvas.remove();
+      }, duration + 500);
+      
+      function animate(now) {
+        try {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          const stepIndex = Math.min(Math.floor(progress * steps.length), steps.length - 1);
+          const res = steps[stepIndex];
+          
+          ctx.imageSmoothingEnabled = false;
+          
+          const tempCanvas = document.createElement('canvas');
+          const tempCtx = tempCanvas.getContext('2d');
+          tempCanvas.width = res;
+          tempCanvas.height = Math.max(1, Math.round(res * (height / width)));
+          tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+          
+          ctx.clearRect(0, 0, width, height);
+          ctx.drawImage(tempCanvas, 0, 0, width, height);
+          
+          const posterizeIntensity = Math.max(0, 1 - progress * 1.3);
+          if (posterizeIntensity > 0.05) {
+            const levels = Math.floor(2 + (1 - posterizeIntensity) * 14);
+            const imageData = ctx.getImageData(0, 0, width, height);
+            ctx.putImageData(posterize(imageData, levels), 0, 0);
+          }
+          
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            clearTimeout(failsafe);
+            img.classList.add('revealed');
+            setTimeout(() => canvas.remove(), 300);
+          }
+        } catch (e) {
+          clearTimeout(failsafe);
+          img.classList.add('revealed');
+          if (canvas.parentNode) canvas.remove();
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+
+    function renderGrid() {
+      const container = document.getElementById('grid');
+      container.innerHTML = '';
+
+      stuff.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'item';
+        
+        const imageContainer = document.createElement('div');
+        imageContainer.className = 'item-image';
+        
+        const img = document.createElement('img');
+        img.src = `images/${item.img}`;
+        img.alt = item.title;
+        img.loading = 'lazy';
+        
+        function setupDecodeObserver() {
+          if (imageContainer.dataset.decoded === 'true') return;
+          
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting && imageContainer.dataset.decoded !== 'true') {
+                imageContainer.dataset.decoded = 'true';
+                const staggerDelay = getStaggerDelay();
+                createPixelDecode(img, imageContainer, staggerDelay);
+                observer.disconnect();
+              }
+            });
+          }, { threshold: 0.1 });
+          
+          observer.observe(imageContainer);
+        }
+        
+        // Handle both fresh loads and cached images
+        if (img.complete && img.naturalWidth > 0) {
+          setupDecodeObserver();
+        } else {
+          img.onload = setupDecodeObserver;
+        }
+        
+        imageContainer.appendChild(img);
+        
+        el.innerHTML = `
+          <div class="item-title" data-decode>${item.title}</div>
+          <div class="item-type" data-decode>${item.type}</div>
       <div class="item-details">
-        <p>Really good band. </p>
+            <p data-decode>${item.desc}</p>
       </div>
-    </div>
-  </div>
-  
+        `;
+        
+        el.insertBefore(imageContainer, el.firstChild);
+        container.appendChild(el);
+      });
+    }
+
+    renderGrid();
+  </script>
+  <script src="decode.js"></script>
 </body>
 </html>
+

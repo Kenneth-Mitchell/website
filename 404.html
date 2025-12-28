@@ -4,21 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
   <title>404 | Kenneth Mitchell</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
-      font-family: monospace;
-      font-size: 15px;
-      background: #0d0d0d;
-      color: #d4a55c;
-      min-height: 100vh;
-      padding: 32px;
-      line-height: 1.6;
       display: flex;
       flex-direction: column;
     }
@@ -31,37 +20,33 @@
     }
     .code {
       font-size: 48px;
-      color: #5c4a2a;
+      color: var(--text-dim);
       font-weight: normal;
       line-height: 1;
     }
     .message {
-      color: #7a6840;
+      color: var(--text-muted);
       margin: 16px 0 32px;
     }
-    a {
-      color: #d4a55c;
+    .back {
+      color: var(--text);
       text-decoration: none;
     }
-    a:hover {
-      color: #ffe6a8;
+    .back:hover {
+      color: var(--text-bright);
     }
-    a::before {
+    .back::before {
       content: "→ ";
-      color: #5c4a2a;
-    }
-    footer {
-      font-size: 13px;
-      color: #5c4a2a;
+      color: var(--text-dim);
     }
   </style>
 </head>
-<body>
+<body class="pre-decode">
   <div class="container">
-    <div class="code">404</div>
-    <p class="message">Nothing here, sorry. If you think this is an error, please let me know.</p>
-    <a href="index.html">back to index</a>
+    <div class="code" data-decode>404</div>
+    <p class="message" data-decode>Nothing here, sorry. If you think this is an error, please let me know.</p>
+    <a href="index.html" class="back" data-decode>back to index</a>
   </div>
-  
+  <script src="decode.js"></script>
 </body>
 </html>

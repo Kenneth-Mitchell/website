@@ -3,71 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="Shots | Kenneth Mitchell" />
+  <meta property="og:description" content="Photography from the Mediterranean and beyond." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
   <title>Shots | Kenneth Mitchell</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: monospace;
-      font-size: 15px;
-      background: #0d0d0d;
-      color: #d4a55c;
-      min-height: 100vh;
-      padding: 32px;
-      line-height: 1.6;
-    }
-    .header {
-      margin-bottom: 32px;
-    }
-    .path {
-      font-size: 15px;
-      color: #7a6840;
-      margin-bottom: 4px;
-    }
-    .path a {
-      color: #7a6840;
-      text-decoration: none;
-    }
-    .path a:hover {
-      color: #d4a55c;
-    }
-    h1 {
-      font-size: 15px;
-      font-weight: normal;
-      color: #e8c584;
-    }
+    /* Gallery-specific styles */
     .gallery {
-      column-count: 3;
-      column-gap: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
       margin-top: 8px;
     }
+    .row {
+      display: grid;
+      gap: 16px;
+    }
+    .row-portrait {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .row-landscape {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .row-landscape-single {
+      grid-template-columns: 1fr;
+      max-width: 66%;
+    }
+    .row-square {
+      grid-template-columns: repeat(3, 1fr);
+    }
     @media (max-width: 900px) {
-      .gallery { column-count: 2; }
+      .row-portrait { grid-template-columns: repeat(2, 1fr); }
+      .row-landscape { grid-template-columns: 1fr; }
+      .row-landscape-single { max-width: 100%; }
+      .row-square { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 500px) {
-      .gallery { column-count: 1; }
+      .row-portrait, .row-landscape, .row-square { 
+        grid-template-columns: 1fr; 
+      }
     }
     .gallery-item {
-      break-inside: avoid;
-      margin-bottom: 16px;
       cursor: pointer;
       position: relative;
     }
     .gallery-item img {
       width: 100%;
       display: block;
-      border: 1px solid #2a2418;
-      transition: border-color 0.2s ease, opacity 0.2s ease;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s ease;
+    }
+    /* Hide all gallery images by default - revealed by JS */
+    .gallery-item img {
+      opacity: 0;
+    }
+    .gallery-item img.revealed {
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+    /* Canvas overlay for decode effect */
+    .decode-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--border);
+      box-sizing: border-box;
+      pointer-events: none;
+      image-rendering: pixelated;
     }
     .gallery-item:hover img {
-      border-color: #d4a55c;
+      border-color: var(--text);
       opacity: 0.9;
     }
-    /* Hover caption on thumbnails */
     .gallery-item .caption {
       position: absolute;
       bottom: 0;
@@ -75,7 +85,7 @@
       right: 0;
       padding: 12px 10px;
       background: linear-gradient(transparent, rgba(0,0,0,0.8));
-      color: #d4a55c;
+      color: var(--text);
       font-size: 12px;
       opacity: 0;
       transition: opacity 0.2s ease;
@@ -84,7 +94,7 @@
     .gallery-item:hover .caption {
       opacity: 1;
     }
-    /* Lightbox for full-res view */
+    /* Lightbox */
     .lightbox {
       display: none;
       position: fixed;
@@ -124,22 +134,21 @@
       opacity: 1;
     }
     .lightbox .info .title {
-      color: #d4a55c;
+      color: var(--text);
       font-size: 14px;
       margin-bottom: 8px;
     }
     .lightbox .info .description {
-      color: #7a6840;
+      color: var(--text-muted);
       font-size: 12px;
       line-height: 1.7;
     }
-    /* Loading spinner */
     .lightbox .loader {
       position: absolute;
       width: 32px;
       height: 32px;
-      border: 2px solid #2a2418;
-      border-top-color: #d4a55c;
+      border: 2px solid var(--border);
+      border-top-color: var(--text);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
@@ -149,95 +158,16 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    footer {
-      margin-top: 48px;
-      font-size: 13px;
-      color: #5c4a2a;
-    }
   </style>
 </head>
-<body>
+<body class="pre-decode">
   <div class="header">
-    <div class="path"><a href="index.html">kenneth</a> / shots</div>
-    <h1>Shots</h1>
+    <div class="path" data-decode><a href="index.html">kenneth</a> / shots</div>
+    <h1 data-decode>Shots</h1>
   </div>
-  <div class="gallery">
-    <!-- Mixed aspect ratios: portrait (2:3), landscape (3:2), square (1:1) -->
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot1/400/600" data-full="https://picsum.photos/seed/shot1/1200/1800" 
-           data-title="Morning fog on the dock"
-           data-description="Taken at dawn on Lake Crescent in Olympic National Park. I'd been camping nearby and woke up before sunrise to catch the mist rolling off the water. The stillness was unreal—no wind, no sound, just the slow drift of fog across the surface. Sometimes the best shots are the ones you almost sleep through." alt="">
-      <span class="caption">Morning fog on the dock</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot2/600/400" data-full="https://picsum.photos/seed/shot2/1800/1200"
-           data-title="Vintage cars in the snow"
-           data-description="Found these beauties outside an old farmhouse in rural Poland. The owners had been collecting them for decades but never got around to restoring any. There's something poetic about machines built to move, frozen in place." alt="">
-      <span class="caption">Vintage cars in the snow</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot3/400/400" data-full="https://picsum.photos/seed/shot3/1200/1200"
-           data-title="Desert red"
-           data-description="Uluru at golden hour. No amount of photos prepare you for the scale of it. The color shifts constantly as the sun moves—this was maybe 20 minutes before it went full red." alt="">
-      <span class="caption">Desert red</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot4/400/600" data-full="https://picsum.photos/seed/shot4/1200/1800"
-           data-title="Snowy pines"
-           data-description="" alt="">
-      <span class="caption">Snowy pines</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot5/600/400" data-full="https://picsum.photos/seed/shot5/1800/1200"
-           data-title="Country road"
-           data-description="" alt="">
-      <span class="caption">Country road</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot6/400/600" data-full="https://picsum.photos/seed/shot6/1200/1800"
-           data-title="Rail lines"
-           data-description="An abandoned rail bridge in Lithuania. You could walk the tracks for miles without seeing another person. The infrastructure of a former era, slowly being reclaimed." alt="">
-      <span class="caption">Rail lines</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot7/400/400" data-full="https://picsum.photos/seed/shot7/1200/1200"
-           data-title=""
-           data-description="" alt="">
-      <span class="caption"></span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot8/600/400" data-full="https://picsum.photos/seed/shot8/1800/1200"
-           data-title="Winter walk"
-           data-description="" alt="">
-      <span class="caption">Winter walk</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot9/400/600" data-full="https://picsum.photos/seed/shot9/1200/1800"
-           data-title="Workshop tools"
-           data-description="" alt="">
-      <span class="caption">Workshop tools</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot10/400/400" data-full="https://picsum.photos/seed/shot10/1200/1200"
-           data-title="Foggy boats"
-           data-description="" alt="">
-      <span class="caption">Foggy boats</span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot11/400/600" data-full="https://picsum.photos/seed/shot11/1200/1800"
-           data-title=""
-           data-description="" alt="">
-      <span class="caption"></span>
-    </div>
-    <div class="gallery-item" onclick="openLightbox(this)">
-      <img src="https://picsum.photos/seed/shot12/600/400" data-full="https://picsum.photos/seed/shot12/1800/1200"
-           data-title="Sunset surfer"
-           data-description="Last light in Santa Cruz. I sat on the cliff for an hour waiting for someone to paddle out. Worth it." alt="">
-      <span class="caption">Sunset surfer</span>
-    </div>
-  </div>
+  <div class="gallery" id="gallery"></div>
 
-  <div class="lightbox" onclick="closeLightbox()">
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <img src="" alt="">
     <div class="info">
       <div class="title"></div>
@@ -247,29 +177,284 @@
   </div>
 
   <script>
-    const lightbox = document.querySelector('.lightbox');
+    // ============================================================
+    // PHOTO CONFIG - Edit this to manage your gallery!
+    // ============================================================
+    // Each row is an array of photos. Row types:
+    //   - 3 portraits  → displays as 3 columns
+    //   - 2 landscapes → displays as 2 columns  
+    //   - 3 squares    → displays as 3 columns
+    //   - 1 photo      → displays as featured (2/3 width)
+    //
+    // Photo format: { thumb, full, title, desc }
+    //   - thumb: filename in images/shots/thumb/
+    //   - full:  filename in images/shots/full/
+    //   - title: caption shown on hover & lightbox
+    //   - desc:  longer description in lightbox (optional)
+    // ============================================================
+
+    const gallery = [
+      // Row 1: Portraits
+      [
+        { thumb: "valencia4 copy.png", full: "valencia4 copy 2.png", title: "Valencia", desc: "" },
+        { thumb: "menorca1 copy.png", full: "menorca1 copy 2.png", title: "Menorca", desc: "" },
+        { thumb: "port_vendres3 copy.png", full: "port_vendres3 copy 2.png", title: "Port-Vendres", desc: "" },
+      ],
+
+      // Row 2: Landscapes
+      [
+        { thumb: "eze3 copy.png", full: "eze3 copy 2.png", title: "Èze", desc: "" },
+        { thumb: "eze5 copy.png", full: "eze5 copy 2.png", title: "Èze", desc: "" },
+      ],
+
+      // Row 3: Portraits
+      [
+
+        { thumb: "monaco1 copy.png", full: "monaco1 copy 2.png", title: "Monaco", desc: "" },
+        { thumb: "monaco0 copy.png", full: "monaco0 copy 2.png", title: "Èze", desc: "" },
+        { thumb: "The Stranger copy.png", full: "The Stranger copy 2.png", title: "The Stranger", desc: "An assignment from my photography class in college. The goal was to capture a moment of someone's life." },
+      ],
+
+      // Row 4: Landscapes
+      [
+        { thumb: "nice1 copy.png", full: "nice1 copy 2.png", title: "Nice", desc: "" },
+        { thumb: "marsaille1 copy.png", full: "marsaille1 copy 2.png", title: "Marseille", desc: "" },
+      ],
+
+      // Row 5: Squares
+      [
+        { thumb: "isla5_insta copy.png", full: "isla5 copy.png", title: "Isla Mujeres", desc: "" },
+        { thumb: "fleet3_insta copy.png", full: "fleet3 copy.png", title: "Fleet Week", desc: "" },
+        { thumb: "move1_insta copy.png", full: "move1 copy.png", title: "Gadget & Gizmo", desc: "This was during our move to San Francisco from LA." },
+      ],
+
+      // Row 6: Landscapes
+      [
+        { thumb: "marsaille3 copy.png", full: "marsaille3 copy 2.png", title: "Marseille", desc: "" },
+        { thumb: "port_vendres1 copy.png", full: "port_vendres1 copy 2.png", title: "Port-Vendres", desc: "" },
+      ],
+
+      // Row 7: Landscapes
+      [
+        { thumb: "majorca2_LR copy.png", full: "majorca2 copy.png", title: "Majorca", desc: "" },
+        { thumb: "fleet1_insta copy.png", full: "fleet1 copy.png", title: "Fleet Week", desc: "" },
+      ],
+
+      // Row 8: Landscapes
+      [
+        { thumb: "fleet2_insta copy.png", full: "fleet2 copy.png", title: "Fleet Week", desc: "" },
+        { thumb: "port_vendres4 copy.png", full: "port_vendres4 copy 2.png", title: "Port-Vendres", desc: "" },
+      ],
+    ];
+
+    // ============================================================
+    // Gallery renderer (no need to edit below)
+    // ============================================================
+
+    // Queue for staggering image decodes
+    let decodeQueue = [];
+    let lastDecodeTime = 0;
+    
+    function getStaggerDelay() {
+      const now = Date.now();
+      if (now - lastDecodeTime > 500) {
+        decodeQueue = [];
+      }
+      lastDecodeTime = now;
+      const delay = decodeQueue.length * 150;
+      decodeQueue.push(1);
+      return delay;
+    }
+
+    // Canvas-based pixelation decode (much more performant)
+    function createPixelDecode(img, container, staggerDelay = 0) {
+      const rect = img.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      
+      // If dimensions are 0, wait for layout and retry
+      if (width === 0 || height === 0) {
+        requestAnimationFrame(() => createPixelDecode(img, container, staggerDelay));
+        return;
+      }
+      
+      // Create visible canvas overlay
+      const canvas = document.createElement('canvas');
+      canvas.className = 'decode-canvas';
+      canvas.width = width;
+      canvas.height = height;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      const ctx = canvas.getContext('2d');
+      
+      // Fill with background color initially
+      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg') || '#0a0a0a';
+      ctx.fillRect(0, 0, width, height);
+      
+      container.appendChild(canvas);
+      
+      // Start animation after stagger delay
+      setTimeout(() => animatePixelDecode(img, canvas, ctx, width, height), staggerDelay);
+    }
+
+    // Progressive pixelation decode with posterization + glitch effects
+    function animatePixelDecode(img, canvas, ctx, width, height) {
+      const duration = 1800;
+      const startTime = performance.now();
+      
+      // Resolution steps: start very pixelated, end at full res
+      const steps = [2, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256, width];
+      
+      // Failsafe: always reveal image after max time
+      const failsafe = setTimeout(() => {
+        img.classList.add('revealed');
+        if (canvas.parentNode) canvas.remove();
+      }, duration + 500);
+      
+      function posterize(imageData, levels) {
+        const data = imageData.data;
+        const step = 255 / levels;
+        for (let i = 0; i < data.length; i += 4) {
+          data[i] = Math.round(data[i] / step) * step;     // R
+          data[i+1] = Math.round(data[i+1] / step) * step; // G
+          data[i+2] = Math.round(data[i+2] / step) * step; // B
+        }
+        return imageData;
+      }
+      
+      function animate(now) {
+        try {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Determine current resolution step
+          const stepIndex = Math.min(Math.floor(progress * steps.length), steps.length - 1);
+          const res = steps[stepIndex];
+          
+          ctx.imageSmoothingEnabled = false;
+          
+          // Draw image at low res then scale up
+          const tempCanvas = document.createElement('canvas');
+          const tempCtx = tempCanvas.getContext('2d');
+          tempCanvas.width = res;
+          tempCanvas.height = Math.max(1, Math.round(res * (height / width)));
+          tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+          
+          // Scale back up to full size (pixelated)
+          ctx.clearRect(0, 0, width, height);
+          ctx.drawImage(tempCanvas, 0, 0, width, height);
+          
+          // === POSTERIZATION (synced with pixelation) ===
+          const posterizeIntensity = Math.max(0, 1 - progress * 1.3);
+          
+          if (posterizeIntensity > 0.05) {
+            // Posterize - fewer colors early, more colors as it resolves
+            const levels = Math.floor(2 + (1 - posterizeIntensity) * 14); // 2-16 levels
+            const imageData = ctx.getImageData(0, 0, width, height);
+            ctx.putImageData(posterize(imageData, levels), 0, 0);
+          }
+          
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            // Done - reveal actual image and remove canvas
+            clearTimeout(failsafe);
+            img.classList.add('revealed');
+            setTimeout(() => canvas.remove(), 300);
+          }
+        } catch (e) {
+          // On any error, just reveal the image
+          clearTimeout(failsafe);
+          img.classList.add('revealed');
+          if (canvas.parentNode) canvas.remove();
+        }
+      }
+      
+      requestAnimationFrame(animate);
+    }
+
+    function renderGallery() {
+      const container = document.getElementById('gallery');
+      container.innerHTML = '';
+
+      gallery.forEach(row => {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'row';
+        
+        // Determine row type based on count
+        if (row.length === 3) {
+          rowEl.classList.add('row-portrait'); // works for portraits & squares
+        } else if (row.length === 2) {
+          rowEl.classList.add('row-landscape');
+        } else if (row.length === 1) {
+          rowEl.classList.add('row-landscape-single');
+        }
+
+        row.forEach(photo => {
+          const item = document.createElement('div');
+          item.className = 'gallery-item';
+          item.onclick = () => openLightbox(photo);
+          
+          const img = document.createElement('img');
+          img.src = `images/shots/thumb/${photo.thumb}`;
+          img.alt = photo.title || '';
+          img.loading = 'lazy';
+          // Image starts hidden via CSS, revealed after decode
+          
+          // Track if decode has happened
+          item.dataset.decoded = 'false';
+          
+          function setupDecodeObserver() {
+            if (item.dataset.decoded === 'true') return;
+            
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting && item.dataset.decoded === 'false') {
+                  item.dataset.decoded = 'true';
+                  const staggerDelay = getStaggerDelay();
+                  createPixelDecode(img, item, staggerDelay);
+                  observer.disconnect();
+                }
+              });
+            }, { threshold: 0.1 });
+            
+            observer.observe(item);
+          }
+          
+          // Handle both fresh loads and cached images
+          if (img.complete && img.naturalWidth > 0) {
+            setupDecodeObserver();
+          } else {
+            img.onload = setupDecodeObserver;
+          }
+          
+          const caption = document.createElement('span');
+          caption.className = 'caption';
+          caption.textContent = photo.title || '';
+          
+          item.appendChild(img);
+          item.appendChild(caption);
+          rowEl.appendChild(item);
+        });
+
+        container.appendChild(rowEl);
+      });
+    }
+
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
     const lightboxImg = lightbox.querySelector('img');
     const lightboxTitle = lightbox.querySelector('.info .title');
     const lightboxDesc = lightbox.querySelector('.info .description');
 
-    function openLightbox(item) {
-      const img = item.querySelector('img');
-      const title = img.dataset.title || '';
-      const description = img.dataset.description || '';
-      
-      // Reset state
+    function openLightbox(photo) {
       lightboxImg.classList.remove('loaded');
       lightboxImg.src = '';
+      lightboxTitle.textContent = photo.title || '';
+      lightboxDesc.textContent = photo.desc || '';
       
-      // Set info
-      lightboxTitle.textContent = title;
-      lightboxDesc.textContent = description;
-      
-      // Load image
-      lightboxImg.src = img.dataset.full;
-      lightboxImg.onload = () => {
-        lightboxImg.classList.add('loaded');
-      };
+      lightboxImg.src = `images/shots/full/${photo.full}`;
+      lightboxImg.onload = () => lightboxImg.classList.add('loaded');
       
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -280,9 +465,13 @@
       document.body.style.overflow = '';
     }
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLightbox();
     });
+
+    // Build gallery on load
+    renderGallery();
   </script>
+  <script src="decode.js"></script>
 </body>
 </html>

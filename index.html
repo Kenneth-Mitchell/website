@@ -3,161 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Kenneth Mitchell — software engineer at axi.om, working on AI and drug toxicity. Thoughts, photography, and things I like." />
+  <meta name="description" content="Kenneth Mitchell — AI engineer at axi.om, working on drug toxicity. Thoughts, photography, and things I like." />
   <meta property="og:title" content="Kenneth Mitchell" />
-  <meta property="og:description" content="Software engineer at axi.om, working on AI and drug toxicity. Thoughts, photography, and things I like." />
+  <meta property="og:description" content="AI engineer at axi.om, working on drug toxicity. Thoughts, photography, and things I like." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="style.css" />
   <title>Kenneth Mitchell</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: monospace;
-      font-size: 15px;
-      background: #0d0d0d;
-      color: #d4a55c;
-      min-height: 100vh;
-      padding: 32px;
-      line-height: 1.6;
-    }
+    /* Index-specific styles */
     h1 {
-      font-size: 15px;
-      font-weight: normal;
-      color: #e8c584;
+      margin-bottom: 8px;
+    }
+    .intro {
+      color: var(--text-muted);
       margin-bottom: 32px;
+    }
+    .intro a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-decoration-color: var(--text-dim);
+    }
+    .intro a:hover {
+      color: var(--text);
     }
     nav {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
-    .nav-item {
-      border-bottom: 1px solid #2a2418;
-      overflow: hidden;
-    }
-    .nav-item a {
-      display: block;
-      color: #d4a55c;
-      text-decoration: none;
-      padding: 10px 0;
-      transition: padding 0.2s ease;
-    }
-    .nav-item a::before {
-      content: "→ ";
-      color: #5c4a2a;
-      transition: color 0.2s ease;
-    }
-    .nav-item:hover a {
-      color: #ffe6a8;
-      padding-left: 8px;
-    }
-    .nav-item:hover a::before {
-      color: #d4a55c;
-    }
-    .nav-item .detail {
-      max-height: 0;
-      overflow: hidden;
-      color: #7a6840;
-      font-size: 13px;
-      padding-left: 18px;
-      transition: max-height 0.2s ease, padding 0.2s ease;
-    }
-    .nav-item:hover .detail {
-      max-height: 40px;
-      padding-bottom: 10px;
-    }
-    .nav-label {
-      display: block;
-      padding: 10px 0;
-      cursor: default;
-      transition: padding 0.2s ease;
-    }
-    .nav-label::before {
-      content: "→ ";
-      color: #5c4a2a;
-      transition: color 0.2s ease;
-    }
-    .nav-item.expandable:hover .nav-label {
-      color: #ffe6a8;
-      padding-left: 8px;
-    }
-    .nav-item.expandable:hover .nav-label::before {
-      color: #d4a55c;
-    }
-    .subnav {
-      max-height: 0;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      padding-left: 18px;
-      transition: max-height 0.2s ease, padding 0.2s ease;
-    }
-    .nav-item.expandable:hover .subnav {
-      max-height: 100px;
-      padding-bottom: 10px;
-    }
-    .subnav a {
-      color: #7a6840;
-      text-decoration: none;
-      padding: 4px 0;
-      font-size: 13px;
-      transition: color 0.15s ease;
-    }
-    .subnav a:hover {
-      color: #ffe6a8;
-    }
-    .subnav a::before {
-      content: "· ";
-      color: #5c4a2a;
-    }
-    footer {
-      margin-top: 48px;
-      font-size: 13px;
-      color: #5c4a2a;
-    }
-    @media (max-width: 600px) {
-      .nav-item .detail {
-        max-height: 40px;
-        padding-bottom: 10px;
-      }
-      .nav-item.expandable .subnav {
-        max-height: 100px;
-        padding-bottom: 10px;
-      }
-    }
   </style>
 </head>
-<body>
-  <h1>Kenneth Mitchell</h1>
+<body class="pre-decode">
+  <h1 data-decode>Kenneth Mitchell</h1>
+  <p class="intro" data-decode>AI engineer at <a href="https://axi.om" target="_blank" rel="noopener">axi.om</a>, working on drug toxicity.</p>
   <nav>
     <div class="nav-item">
-      <a href="now.html">now</a>
-      <div class="detail">what i'm up to</div>
+      <a href="now.html" data-decode>now</a>
+      <div class="detail" data-decode>what i'm up to</div>
     </div>
     <div class="nav-item">
-      <a href="thoughts.html">thoughts</a>
-      <div class="detail">writing & ideas</div>
+      <a href="thoughts.html" data-decode>thoughts</a>
+      <div class="detail" data-decode>writing & ideas</div>
     </div>
     <div class="nav-item">
-      <a href="shots.html">shots</a>
-      <div class="detail">photography</div>
+      <a href="shots.html" data-decode>shots</a>
+      <div class="detail" data-decode>photography</div>
     </div>
     <div class="nav-item">
-      <a href="stuff.html">stuff i like</a>
-      <div class="detail">things that resonate</div>
+      <a href="stuff.html" data-decode>stuff i like</a>
+      <div class="detail" data-decode>things that resonate</div>
     </div>
     <div class="nav-item expandable">
-      <span class="nav-label">links</span>
-      <div class="detail">find me elsewhere</div>
+      <span class="nav-label" data-decode>links</span>
+      <div class="detail" data-decode>find me elsewhere</div>
       <div class="subnav">
-        <a href="https://www.linkedin.com/in/kenneth-w-mitchell" target="_blank" rel="noopener">linkedin</a>
-        <a href="https://github.com/Kenneth-Mitchell" target="_blank" rel="noopener">github</a>
+        <a href="https://www.linkedin.com/in/kenneth-w-mitchell" target="_blank" rel="noopener" data-decode>linkedin</a>
+        <a href="https://github.com/Kenneth-Mitchell" target="_blank" rel="noopener" data-decode>github</a>
       </div>
     </div>
   </nav>
-  
+
+  <script src="decode.js"></script>
 </body>
 </html>
