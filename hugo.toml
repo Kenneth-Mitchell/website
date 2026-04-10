@@ -1,0 +1,19 @@
+baseURL = "https://www.kenneth-mitchell.com/"
+languageCode = "en-us"
+title = "Kenneth Mitchell"
+enableRobotsTXT = true
+
+disableKinds = ["taxonomy", "term"]
+
+[permalinks]
+  posts = "/:slug/"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
+    style = "github"
+
+[params]
+  description = "not a blog"

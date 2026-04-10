@@ -1,0 +1,14 @@
+{{ define "main" }}
+<header class="site-header">
+  <h1><a href="{{ "" | relURL }}">{{ .Site.Title }}</a></h1>
+  {{ with .Site.Params.description }}<p class="tagline">{{ . }}</p>{{ end }}
+</header>
+<ul class="posts">
+  {{ range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
+  <li>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+  </li>
+  {{ end }}
+</ul>
+{{ end }}
