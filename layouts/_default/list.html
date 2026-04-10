@@ -1,7 +1,9 @@
 {{ define "main" }}
 <header class="site-header">
   <h1><a href="{{ "" | relURL }}">{{ .Site.Title }}</a></h1>
-  {{ with .Site.Params.description }}<p class="tagline">{{ . }}</p>{{ end }}
+  <nav class="site-nav">
+    <a href="{{ "about/" | relURL }}">about me</a>
+  </nav>
 </header>
 <ul class="posts">
   {{ range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}

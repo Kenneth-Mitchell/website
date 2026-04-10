@@ -2,7 +2,9 @@
 <a class="back" href="{{ "" | relURL }}">← {{ .Site.Title }}</a>
 <header class="post-header">
   <h1>{{ .Title }}</h1>
+  {{ if eq .Section "posts" }}
   <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+  {{ end }}
 </header>
 <article>
 {{ .Content }}

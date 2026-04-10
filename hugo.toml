@@ -16,4 +16,3 @@ disableKinds = ["taxonomy", "term"]
     style = "github"
 
 [params]
-  description = "not a blog"
