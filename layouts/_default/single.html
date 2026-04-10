@@ -7,7 +7,10 @@
   {{ end }}
 </header>
 {{ if .Params.toc }}
-<nav class="toc">
+<button class="toc-toggle" aria-label="Table of contents" aria-expanded="false">
+  <span></span><span></span><span></span>
+</button>
+<nav class="toc" aria-label="Table of contents">
   <p class="toc-title">contents</p>
   {{ .TableOfContents }}
 </nav>
@@ -15,4 +18,7 @@
 <article>
 {{ .Content }}
 </article>
+{{ if .Params.toc }}
+<script src="{{ "toc.js" | relURL }}" defer></script>
+{{ end }}
 {{ end }}
