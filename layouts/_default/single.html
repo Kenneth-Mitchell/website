@@ -6,6 +6,12 @@
   <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
   {{ end }}
 </header>
+{{ if .Params.toc }}
+<nav class="toc">
+  <p class="toc-title">contents</p>
+  {{ .TableOfContents }}
+</nav>
+{{ end }}
 <article>
 {{ .Content }}
 </article>

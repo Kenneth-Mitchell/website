@@ -115,6 +115,37 @@ ul.posts a:hover { text-decoration: underline; }
   font-size: 0.9rem;
 }
 
+.toc {
+  margin: 0 0 2.5rem;
+  padding: 0.5rem 0 0.5rem 1rem;
+  border-left: 2px solid var(--rule);
+  font-size: 0.9rem;
+}
+
+.toc-title {
+  color: var(--muted);
+  margin: 0 0 0.25rem;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.toc > ul {
+  padding-left: 0;
+}
+
+.toc li { margin: 0.15rem 0; }
+
+.toc a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.toc a:hover { text-decoration: underline; }
+
 article p { margin: 0 0 1.25rem; }
 
 article h2 { font-size: 1.2rem; margin: 2rem 0 0.75rem; }
