@@ -1,8 +1,8 @@
- ---
-  title: "The G in AGI Stands for Guillotine"
-  date: 2026-04-10
-  draft: true
-  ---
+---
+title: "The G in AGI Stands for Guillotine"
+date: 2026-04-10
+draft: true
+---
 
 Joseph-Ignace Guillotin was an 18th-century French physician who starkly opposed the death penalty. He's also the man whose advocacy for a humane killing device backfired so spectacularly that it ended up bearing his name: the guillotine.
 
