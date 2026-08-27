@@ -30,6 +30,17 @@
     focusImage.setAttribute('aria-label', focusScale > 1 ? 'Fit photograph to viewer' : 'Magnify photograph');
   }
 
+  function fitFocusImage() {
+    if (!focusImage.naturalWidth || !focusImage.naturalHeight) return;
+    const fitRatio = Math.min(
+      focusStage.clientWidth / focusImage.naturalWidth,
+      focusStage.clientHeight / focusImage.naturalHeight
+    );
+    focusImage.style.width = `${Math.floor(focusImage.naturalWidth * fitRatio)}px`;
+    focusImage.style.height = `${Math.floor(focusImage.naturalHeight * fitRatio)}px`;
+    renderFocus();
+  }
+
   function resetFocus() {
     focusScale = 1;
     focusX = 0;
@@ -49,7 +60,11 @@
       resetFocus();
       return;
     }
-    focusScale = 2.5;
+    focusScale = Math.min(
+      2.5,
+      focusImage.naturalWidth / focusImage.offsetWidth,
+      focusImage.naturalHeight / focusImage.offsetHeight
+    );
     const stageRect = focusStage.getBoundingClientRect();
     const clickX = event.clientX || stageRect.left + stageRect.width / 2;
     const clickY = event.clientY || stageRect.top + stageRect.height / 2;
@@ -140,7 +155,10 @@
       focusCaption.hidden = !button.dataset.caption;
       focusDialog.showModal();
       resetFocus();
-      focusImage.focus();
+      requestAnimationFrame(() => {
+        fitFocusImage();
+        focusImage.focus();
+      });
     });
   });
 
@@ -185,5 +203,14 @@
   }
   focusImage.addEventListener('pointerup', endFocusDrag);
   focusImage.addEventListener('pointercancel', endFocusDrag);
-  window.addEventListener('resize', renderFocus);
+  focusImage.addEventListener('load', () => {
+    if (!focusDialog.open) return;
+    resetFocus();
+    fitFocusImage();
+  });
+  window.addEventListener('resize', () => {
+    if (!focusDialog.open) return;
+    resetFocus();
+    fitFocusImage();
+  });
 })();
