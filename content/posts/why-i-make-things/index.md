@@ -3,13 +3,15 @@ title: "On Creating"
 date: 2026-08-26
 draft: false
 writing_type: nonfiction
+aliases:
+  - /why-i-make-things/
 ---
 
 I like to challenge myself by answering vague and difficult questions in a clear and coherent way. In many ways, this is what philosophers do: “Philosophy is the ungainly attempt to tackle questions that come naturally to children, using methods that come naturally to lawyers.” — David Hills
 
 So, my childlike question today is “Why do I create things?” I have this strong, very human urge to make things — whether it be art, technical projects, games, a home, anything at all. Where does this come from? Is it unique to me? There are many questions.
 
-I want to start by asking a simpler question: Is there a difference between the things I create for work (research, projects, shareholder value) and the things I create for myself? In one view, the things I create for work are intended to solve external problems. In my line of work, this typically means I am solving a biological problem with data, ML, and science — with the aim of making our lives easier, healthier, and happier. This seems very externally motivated, whereas the things I create for myself are not so much. The things I create for myself, whether art or not, don't seem to have as much of a “purpose” at first glance. Despite this, I am driven to do them: photography, creative writing, cooking, games, a home.
+I want to start by asking a simpler question: Is there a difference between the things I create for work (research, projects, shareholder value) and the things I create for myself? In one view, the things I create for work are intended to solve external problems. In my line of work, this typically means I am solving a biological problem with data, ML, and science — with the aim of making our lives easier, healthier, and happier. This seems very externally motivated, whereas the things I create for myself are not so much. The things I create for myself, whether art or not, don't seem to have as much of a “purpose” at first glance. Despite this, I am driven to do them: photography, creative writing, cooking, games, a home. Why am I driven to do them if they have no purpose?
 
 If you know much about me, you likely know I live a very existentialist life. The typical summary of existentialism is that “existence precedes essence,” but I vastly prefer the Camusian perspective that “authentic living is an act of rebellion against the indifferent universe” (my own phrasing). Camus’ rebellious tendencies just have a sort of swagger to them that other existentialists lacked. Why would I simply live quietly when I could live outrageously with fire in my heart?
 
