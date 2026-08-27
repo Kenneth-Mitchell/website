@@ -1,4 +1,7 @@
 {{ define "main" }}
+{{ $galleryKey := path.Base (strings.TrimSuffix "/" .RelPermalink) }}
+{{ $catalogURL := printf "%s?group=%s" ("photos/" | relURL) $galleryKey }}
+<script>window.location.replace({{ $catalogURL | jsonify | safeJS }});</script>
 {{ $group := . }}
 {{ $images := .Resources.Match "website-*.jpg" }}
 {{ $orderedImages := slice }}

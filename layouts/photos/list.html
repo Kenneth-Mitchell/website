@@ -15,7 +15,7 @@
     {{ with .Resources.GetMatch .Params.cover }}
     {{ $cover := .Resize "900x webp q82" }}
     <article class="photo-group">
-      <a class="photo-group-link" href="{{ $group.RelPermalink }}" aria-haspopup="dialog" data-gallery-open>
+      <a class="photo-group-link" href="{{ $group.RelPermalink }}" aria-haspopup="dialog" data-gallery-open data-gallery-path="{{ $group.RelPermalink }}">
         <span class="photo-cover">
           <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $group.Title }}" loading="eager" decoding="async">
           <span class="photo-count photo-count--{{ $group.Params.icon_color | default "white" }}" aria-label="{{ len $images }} {{ if eq (len $images) 1 }}photograph{{ else }}photographs{{ end }} in this set">
@@ -74,5 +74,5 @@
   </div>
   <p data-photo-focus-caption hidden></p>
 </dialog>
-<script src="{{ "gallery.js" | relURL }}?v=5" defer></script>
+<script src="{{ "gallery.js" | relURL }}?v=6" defer></script>
 {{ end }}

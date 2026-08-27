@@ -7,6 +7,8 @@
   const focusLoading = focusDialog.querySelector('[data-photo-focus-loading]');
   const focusCaption = focusDialog.querySelector('[data-photo-focus-caption]');
   const focusButtons = document.querySelectorAll('[data-photo-focus]');
+  const catalogPath = window.location.pathname;
+  const galleryEntries = [];
   let focusScale = 1;
   let focusX = 0;
   let focusY = 0;
@@ -86,8 +88,23 @@
     document.documentElement.classList.remove('gallery-is-open');
   }
 
+  function requestGalleryClose(dialog) {
+    if (!dialog.open) return;
+    if (history.state?.photoGalleryDirect) {
+      history.replaceState({}, '', catalogPath);
+      closeGallery(dialog);
+      return;
+    }
+    if (history.state?.photoGallery) {
+      history.back();
+      return;
+    }
+    closeGallery(dialog);
+  }
+
   galleryLinks.forEach((link, index) => {
     const dialog = galleryDialogs[index];
+    const galleryPath = link.dataset.galleryPath;
     const strip = dialog.querySelector('[data-gallery-strip]');
     const items = Array.from(strip.querySelectorAll('.gallery-strip-item'));
     const progress = dialog.querySelector('[data-gallery-progress]');
@@ -103,19 +120,35 @@
       position.textContent = `${currentIndex + 1} / ${items.length}`;
     }
 
-    link.addEventListener('click', (event) => {
-      event.preventDefault();
+    function openGallery(historyMode = 'none') {
+      if (dialog.open) return;
       dialog.showModal();
       document.documentElement.classList.add('gallery-is-open');
       strip.scrollLeft = 0;
       updatePosition();
       strip.focus();
+      if (historyMode === 'push') {
+        history.pushState({ photoGallery: true }, '', galleryPath);
+      } else if (historyMode === 'replace') {
+        history.replaceState({ photoGallery: true, photoGalleryDirect: true }, '', galleryPath);
+      }
+    }
+
+    galleryEntries.push({ dialog, galleryPath, openGallery });
+
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      openGallery('push');
     });
 
-    dialog.querySelector('[data-gallery-close]').addEventListener('click', () => closeGallery(dialog));
+    dialog.querySelector('[data-gallery-close]').addEventListener('click', () => requestGalleryClose(dialog));
     dialog.addEventListener('click', (event) => {
       if (event.target.closest('.gallery-strip-item, [data-gallery-close]')) return;
-      closeGallery(dialog);
+      requestGalleryClose(dialog);
+    });
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      requestGalleryClose(dialog);
     });
     dialog.addEventListener('close', () => {
       document.documentElement.classList.remove('gallery-is-open');
@@ -154,6 +187,24 @@
       items[nextIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     });
   });
+
+  function syncGalleryToLocation() {
+    const entry = galleryEntries.find(({ galleryPath }) => galleryPath === window.location.pathname);
+    galleryEntries.forEach(({ dialog }) => {
+      if (dialog.open && dialog !== entry?.dialog) closeGallery(dialog);
+    });
+    if (entry && !entry.dialog.open) entry.openGallery('none');
+  }
+
+  window.addEventListener('popstate', syncGalleryToLocation);
+
+  const directGallery = new URLSearchParams(window.location.search).get('group');
+  if (directGallery) {
+    const entry = galleryEntries.find(({ galleryPath }) => (
+      galleryPath.split('/').filter(Boolean).pop() === directGallery
+    ));
+    if (entry) entry.openGallery('replace');
+  }
 
   focusButtons.forEach((button) => {
     button.addEventListener('click', () => {
