@@ -809,6 +809,14 @@ ul.posts a:hover { text-decoration: underline; }
   font-size: 0.9rem;
 }
 
+.post-meta {
+  display: flex;
+  gap: 0.45rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 /* About */
 .about-page {
   max-width: 36rem;

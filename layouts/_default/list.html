@@ -27,7 +27,9 @@
       </button>
       <div class="menu-panel" id="panel-work" aria-hidden="true" inert data-accordion-panel>
         <div class="menu-panel-inner work-menu">
-          <p class="work-note">(<a href="{{ "why-i-make-things/" | relURL }}">why I make stuff</a>)</p>
+          {{ with site.GetPage "/posts/why-i-make-things" }}
+          <p class="work-note">(<a href="{{ .RelPermalink }}">why I make stuff</a>)</p>
+          {{ end }}
 
           <a class="work-item work-link" href="{{ "fiction/" | relURL }}">Fiction</a>
           <a class="work-item work-link" href="{{ "nonfiction/" | relURL }}">Nonfiction</a>
