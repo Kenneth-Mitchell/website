@@ -494,6 +494,10 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.3; }
   max-height: calc(100dvh - 10rem);
 }
 
+.gallery-progress {
+  display: none;
+}
+
 .gallery-strip-item figcaption {
   max-width: 36rem;
   padding-top: 0.45rem;
@@ -521,12 +525,15 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.3; }
 .photo-focus-dialog[open] {
   display: grid;
   place-items: center;
+  overscroll-behavior: contain;
+  touch-action: pinch-zoom;
 }
 
 .photo-focus-dialog img {
   max-width: 100%;
   max-height: calc(100dvh - 6rem);
   object-fit: contain;
+  touch-action: pinch-zoom;
 }
 
 .photo-focus-dialog p {
@@ -799,7 +806,7 @@ hr {
   margin: 2rem 0;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   body { padding: 2rem 1rem; }
   .home-shell { min-height: calc(100vh - 4rem); }
   .home-intro { margin-bottom: 2.75rem; }
@@ -819,6 +826,7 @@ hr {
   .gallery-overlay-header { gap: 1rem; padding-bottom: 0.75rem; }
   .gallery-overlay-header h2 { font-size: 1rem; }
   .gallery-overlay-header p { font-size: 0.72rem; line-height: 1.4; }
+  .gallery-overlay-inner { grid-template-rows: auto minmax(0, 1fr) auto; }
   .gallery-close,
   .photo-focus-close { width: 2.75rem; height: 2.75rem; }
   .gallery-strip {
@@ -833,6 +841,15 @@ hr {
     scroll-snap-align: start;
   }
   .gallery-photo-open img { max-width: 100%; max-height: calc(100dvh - 10rem); }
+  .gallery-progress {
+    display: block;
+    margin: 0;
+    padding-top: 0.45rem;
+    color: var(--muted);
+    font-size: 0.65rem;
+    text-align: center;
+  }
+  .gallery-progress.is-used .gallery-swipe-hint { display: none; }
   .photo-focus-dialog {
     padding:
       max(1rem, env(safe-area-inset-top))

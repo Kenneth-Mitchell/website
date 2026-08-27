@@ -47,6 +47,9 @@
           </figure>
           {{ end }}
         </div>
+        <p class="gallery-progress" data-gallery-progress aria-live="polite">
+          <span data-gallery-position>1 / {{ len $orderedImages }}</span><span class="gallery-swipe-hint" data-gallery-swipe> &middot; swipe &rarr;</span><span> &middot; tap to enlarge</span>
+        </p>
       </div>
     </dialog>
     {{ end }}
@@ -54,7 +57,7 @@
   </div>
 </div>
 
-<dialog class="photo-focus-dialog" data-photo-focus-dialog>
+<dialog class="photo-focus-dialog" data-photo-focus-dialog aria-label="Expanded photograph">
   <button class="photo-focus-close" type="button" aria-label="Return to gallery" data-photo-focus-close>&times;</button>
   <img data-photo-focus-image alt="">
   <p data-photo-focus-caption hidden></p>
