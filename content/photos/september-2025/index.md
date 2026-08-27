@@ -1,5 +1,8 @@
 ---
 title: "Cats"
+slug: "cats"
+aliases:
+  - "/photos/september-2025/"
 description: >-
   Just one photo here — this was a hectic time. I was moving from LA to SF with
   my one-year-old kittens, Gadget and Gizmo. This was a couple of hours into

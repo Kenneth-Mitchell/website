@@ -1,5 +1,8 @@
 ---
 title: "SF Coast"
+slug: "sf-coast"
+aliases:
+  - "/photos/august-2026/"
 description: >-
   I took these photos while doing the Golden Gate Dozen, a cross-city trail in
   SF that takes you along the western coast. I liked watching the water — how

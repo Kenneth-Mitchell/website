@@ -145,32 +145,17 @@
   galleryLinks.forEach((link, index) => {
     const dialog = galleryDialogs[index];
     const galleryPath = link.dataset.galleryPath;
-    const stripStage = dialog.querySelector('[data-gallery-strip-stage]');
-    const stripLoading = dialog.querySelector('[data-gallery-loading]');
     const strip = dialog.querySelector('[data-gallery-strip]');
     const items = Array.from(strip.querySelectorAll('.gallery-strip-item'));
     const stripImages = Array.from(strip.querySelectorAll('img'));
     const progress = dialog.querySelector('[data-gallery-progress]');
     const position = progress.querySelector('[data-gallery-position]');
-    let galleryLoadRequest = 0;
 
-    function setGalleryLoading(isLoading) {
-      stripStage.classList.toggle('is-loading', isLoading);
-      stripStage.setAttribute('aria-busy', String(isLoading));
-      stripLoading.hidden = !isLoading;
-    }
-
-    async function prepareGallery() {
-      const request = ++galleryLoadRequest;
-      setGalleryLoading(true);
-      stripImages.forEach((image) => { image.loading = 'eager'; });
-      await waitForImages(stripImages);
-      await nextPaint();
-      if (request !== galleryLoadRequest || !dialog.open) return;
-      strip.scrollLeft = 0;
-      updatePosition();
-      setGalleryLoading(false);
-      strip.focus();
+    function loadGalleryImages() {
+      stripImages.forEach((image) => {
+        image.loading = 'eager';
+        waitForImage(image).then(() => image.classList.add('is-loaded'));
+      });
     }
 
     function updatePosition() {
@@ -187,7 +172,10 @@
       if (dialog.open) return;
       dialog.showModal();
       document.documentElement.classList.add('gallery-is-open');
-      prepareGallery();
+      strip.scrollLeft = 0;
+      updatePosition();
+      strip.focus();
+      loadGalleryImages();
       if (historyMode === 'push') {
         history.pushState({ photoGallery: true }, '', galleryPath);
       } else if (historyMode === 'replace') {
@@ -212,8 +200,6 @@
       requestGalleryClose(dialog);
     });
     dialog.addEventListener('close', () => {
-      galleryLoadRequest += 1;
-      setGalleryLoading(true);
       document.documentElement.classList.remove('gallery-is-open');
       link.focus();
     });
