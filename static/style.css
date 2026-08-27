@@ -366,15 +366,16 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.3; }
   width: 100%;
   height: 100%;
   overflow: visible;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 0.8;
+  fill: currentColor;
+}
+
+.photo-count path {
+  fill: currentColor;
 }
 
 .photo-count text {
   fill: currentColor;
-  stroke: none;
-  font: 6px ui-monospace, monospace;
+  font: 250px ui-monospace, monospace;
   dominant-baseline: middle;
   text-anchor: middle;
 }
