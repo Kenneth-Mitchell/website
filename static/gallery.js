@@ -167,6 +167,14 @@
       ), 0);
       dots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === currentIndex));
       progress.setAttribute('aria-label', `Image ${currentIndex + 1} of ${items.length}`);
+      if (window.matchMedia('(max-width: 900px)').matches) {
+        const imageRect = items[currentIndex].querySelector('img').getBoundingClientRect();
+        const innerRect = dialog.querySelector('.gallery-overlay-inner').getBoundingClientRect();
+        const dotsTop = Math.min(imageRect.bottom - innerRect.top + 10, innerRect.height - 20);
+        progress.style.setProperty('--gallery-dots-top', `${dotsTop}px`);
+      } else {
+        progress.style.removeProperty('--gallery-dots-top');
+      }
     }
 
     function openGallery(historyMode = 'none') {
@@ -220,6 +228,7 @@
     }, { passive: false, capture: true });
 
     strip.addEventListener('scroll', updatePosition, { passive: true });
+    window.addEventListener('resize', updatePosition);
 
     strip.addEventListener('keydown', (event) => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;

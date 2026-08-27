@@ -436,6 +436,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.3; }
 }
 
 .gallery-overlay-inner {
+  position: relative;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   height: 100%;
@@ -984,7 +985,9 @@ hr {
     gap: 0;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: 0;
+    scrollbar-width: none;
   }
+  .gallery-strip::-webkit-scrollbar { display: none; }
   .gallery-strip-item {
     display: grid;
     flex-basis: 100%;
@@ -993,10 +996,15 @@ hr {
   }
   .gallery-photo-open img { max-width: 100%; max-height: calc(100dvh - 10rem); }
   .gallery-progress {
+    position: absolute;
+    z-index: 2;
+    top: var(--gallery-dots-top, calc(100% - 2rem));
+    right: 0;
+    left: 0;
     display: flex;
     justify-content: center;
     margin: 0;
-    padding-top: 0.55rem;
+    padding: 0;
   }
   .photo-focus-dialog {
     padding:
