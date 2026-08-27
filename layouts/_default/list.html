@@ -13,7 +13,7 @@
       <div class="menu-panel" id="panel-about" aria-hidden="true" inert data-accordion-panel>
         <div class="menu-panel-inner about-preview">
           {{ with .Site.GetPage "/about" }}
-          {{ .Content }}
+          {{ .Summary }}
           <a class="quiet-link" href="{{ .RelPermalink }}">read more <span aria-hidden="true">&rarr;</span></a>
           {{ end }}
         </div>

@@ -811,12 +811,13 @@ ul.posts a:hover { text-decoration: underline; }
 
 /* About */
 .about-page {
-  max-width: 38rem;
+  max-width: 36rem;
 }
 
 .about-blurb {
-  margin: 0 0 3rem;
-  font-size: 1.05rem;
+  margin: 0 0 2.75rem;
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .about-blurb p {
@@ -824,74 +825,29 @@ ul.posts a:hover { text-decoration: underline; }
 }
 
 .about-history h2 {
-  margin: 0 0 0.9rem;
-  color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  margin: 0 0 1.35rem;
+  font-size: 1rem;
 }
 
-.about-timeline {
-  position: relative;
-  max-height: min(22rem, 52vh);
-  margin: 0;
-  padding: 0 0.85rem 0 1.35rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-color: var(--muted) transparent;
-  scrollbar-width: thin;
-  list-style: none;
-}
-
-.about-timeline::before {
-  content: "";
-  position: absolute;
-  top: 0.45rem;
-  bottom: 0.45rem;
-  left: 0.25rem;
-  width: 1px;
-  background: var(--rule);
-}
-
-.about-timeline:focus-visible {
-  outline: 1px solid var(--rule);
-  outline-offset: 0.4rem;
-}
-
-.about-timeline-item {
-  position: relative;
+.about-line {
   display: grid;
-  grid-template-columns: 7rem minmax(0, 1fr);
-  gap: 1rem;
-  padding: 0 0 1.6rem;
-}
-
-.about-timeline-item:last-child {
-  padding-bottom: 0.25rem;
-}
-
-.about-timeline-item::before {
-  content: "";
-  position: absolute;
-  top: 0.42rem;
-  left: -1.35rem;
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 1px solid var(--text);
-  border-radius: 50%;
-  background: var(--bg);
-  transform: translateX(-1px);
-}
-
-.about-timeline-item time {
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-
-.about-timeline-item p {
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0;
   margin: 0;
-  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.about-line > span:last-child {
+  min-height: 3rem;
+  padding: 0 0 1.25rem 1.25rem;
+  border-left: 1px solid var(--rule);
+}
+
+.about-date {
+  color: var(--muted);
+  padding: 0.08rem 1.25rem 1.25rem 0;
+  font-size: 0.82rem;
+  text-align: right;
 }
 
 /* Mobile-first: hamburger button + slide-out TOC panel */
@@ -1109,10 +1065,6 @@ hr {
   }
   ul.posts li { flex-direction: column; gap: 0.1rem; }
   ul.posts time { width: auto; }
-  .about-timeline-item {
-    grid-template-columns: 1fr;
-    gap: 0.15rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

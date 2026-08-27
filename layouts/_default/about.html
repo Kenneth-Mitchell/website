@@ -1,0 +1,23 @@
+{{ define "main" }}
+<a class="back" href="{{ "" | relURL }}">← {{ .Site.Title }}</a>
+
+<main class="about-page">
+  <header class="post-header">
+    <h1>{{ .Title }}</h1>
+  </header>
+
+  <div class="about-blurb">
+    {{ .Content }}
+  </div>
+
+  {{ with .Params.timeline }}
+  <section class="about-history" aria-labelledby="about-history-title">
+    <h2 id="about-history-title">timeline</h2>
+    <p class="about-line"><span class="about-date">now</span><span>{{ $.Page.RenderString (dict "display" "inline") $.Params.now }}</span></p>
+    {{ range . }}
+    <p class="about-line"><span class="about-date">{{ .date }}</span><span>{{ $.Page.RenderString (dict "display" "inline") .text }}</span></p>
+    {{ end }}
+  </section>
+  {{ end }}
+</main>
+{{ end }}
