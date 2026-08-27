@@ -1049,7 +1049,7 @@ hr {
     margin: 0;
     padding: 0;
     opacity: 0;
-    transition: top 180ms ease-out, opacity 160ms ease;
+    transition: opacity 160ms ease;
   }
   .gallery-progress.is-positioned { opacity: 1; }
   .photo-focus-dialog {
