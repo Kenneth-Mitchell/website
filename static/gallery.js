@@ -154,7 +154,11 @@
     function loadGalleryImages() {
       stripImages.forEach((image) => {
         image.loading = 'eager';
-        waitForImage(image).then(() => image.classList.add('is-loaded'));
+        waitForImage(image).then(async () => {
+          image.classList.add('is-loaded');
+          await nextPaint();
+          if (dialog.open) updatePosition();
+        });
       });
     }
 
@@ -168,11 +172,18 @@
       dots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === currentIndex));
       progress.setAttribute('aria-label', `Image ${currentIndex + 1} of ${items.length}`);
       if (window.matchMedia('(max-width: 900px)').matches) {
-        const imageRect = items[currentIndex].querySelector('img').getBoundingClientRect();
+        const activeImage = items[currentIndex].querySelector('img');
+        if (!activeImage.complete || !activeImage.naturalWidth) {
+          progress.classList.remove('is-positioned');
+          return;
+        }
+        const imageRect = activeImage.getBoundingClientRect();
         const innerRect = dialog.querySelector('.gallery-overlay-inner').getBoundingClientRect();
         const dotsTop = Math.min(imageRect.bottom - innerRect.top + 10, innerRect.height - 20);
         progress.style.setProperty('--gallery-dots-top', `${dotsTop}px`);
+        progress.classList.add('is-positioned');
       } else {
+        progress.classList.remove('is-positioned');
         progress.style.removeProperty('--gallery-dots-top');
       }
     }
@@ -209,6 +220,7 @@
       requestGalleryClose(dialog);
     });
     dialog.addEventListener('close', () => {
+      progress.classList.remove('is-positioned');
       document.documentElement.classList.remove('gallery-is-open');
       link.focus();
     });

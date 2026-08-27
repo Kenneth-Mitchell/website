@@ -62,7 +62,7 @@
             {{ $caption := "" }}
             {{ with $group.Params.captions }}{{ $caption = index . $image.Name | default "" }}{{ end }}
             <figure class="gallery-strip-item">
-              <button class="gallery-photo-open" type="button" data-photo-focus data-full="{{ with $full }}{{ .RelPermalink }}{{ else }}{{ $image.RelPermalink }}{{ end }}" data-alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" data-caption="{{ $caption }}">
+              <button class="gallery-photo-open" type="button" style="--gallery-image-ratio: {{ div (float $stripWidth) $stripHeight }}; aspect-ratio: {{ $stripWidth }} / {{ $stripHeight }}" data-photo-focus data-full="{{ with $full }}{{ .RelPermalink }}{{ else }}{{ $image.RelPermalink }}{{ end }}" data-alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" data-caption="{{ $caption }}">
                 <img class="gallery-strip-image{{ if $isCover }} is-loaded{{ end }}" src="{{ $stripSrc }}" width="{{ $stripWidth }}" height="{{ $stripHeight }}" alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" loading="lazy" decoding="async">
               </button>
               {{ with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
@@ -95,5 +95,5 @@
   </div>
   <p data-photo-focus-caption hidden></p>
 </dialog>
-<script src="{{ "gallery.js" | relURL }}?v=10" defer></script>
+<script src="{{ "gallery.js" | relURL }}?v=11" defer></script>
 {{ end }}
