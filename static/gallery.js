@@ -1,6 +1,8 @@
 (function () {
   const galleryLinks = document.querySelectorAll('[data-gallery-open]');
   const galleryDialogs = document.querySelectorAll('[data-gallery-dialog]');
+  const catalogStage = document.querySelector('[data-photo-catalog-stage]');
+  const catalogLoading = document.querySelector('[data-photo-catalog-loading]');
   const focusDialog = document.querySelector('[data-photo-focus-dialog]');
   const focusStage = focusDialog.querySelector('[data-photo-focus-stage]');
   const focusImage = focusDialog.querySelector('[data-photo-focus-image]');
@@ -19,6 +21,44 @@
   let focusDragging = false;
   let focusMoved = false;
   let focusRequest = 0;
+
+  function waitForImage(image) {
+    const loaded = image.complete
+      ? Promise.resolve()
+      : new Promise((resolve) => {
+          image.addEventListener('load', resolve, { once: true });
+          image.addEventListener('error', resolve, { once: true });
+        });
+    return loaded.then(() => (
+      image.naturalWidth && image.decode
+        ? image.decode().catch(() => {})
+        : undefined
+    ));
+  }
+
+  function waitForImages(images) {
+    return Promise.race([
+      Promise.all(images.map(waitForImage)),
+      new Promise((resolve) => setTimeout(resolve, 8000))
+    ]);
+  }
+
+  function nextPaint() {
+    return new Promise((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(resolve));
+    });
+  }
+
+  async function revealCatalog() {
+    const covers = Array.from(document.querySelectorAll('[data-photo-groups] .photo-cover img'));
+    await waitForImages(covers);
+    await nextPaint();
+    catalogStage.classList.remove('is-loading');
+    catalogStage.setAttribute('aria-busy', 'false');
+    catalogLoading.hidden = true;
+  }
+
+  revealCatalog();
 
   function setFocusLoading(isLoading) {
     focusDialog.classList.toggle('is-loading', isLoading);
@@ -105,10 +145,33 @@
   galleryLinks.forEach((link, index) => {
     const dialog = galleryDialogs[index];
     const galleryPath = link.dataset.galleryPath;
+    const stripStage = dialog.querySelector('[data-gallery-strip-stage]');
+    const stripLoading = dialog.querySelector('[data-gallery-loading]');
     const strip = dialog.querySelector('[data-gallery-strip]');
     const items = Array.from(strip.querySelectorAll('.gallery-strip-item'));
+    const stripImages = Array.from(strip.querySelectorAll('img'));
     const progress = dialog.querySelector('[data-gallery-progress]');
     const position = progress.querySelector('[data-gallery-position]');
+    let galleryLoadRequest = 0;
+
+    function setGalleryLoading(isLoading) {
+      stripStage.classList.toggle('is-loading', isLoading);
+      stripStage.setAttribute('aria-busy', String(isLoading));
+      stripLoading.hidden = !isLoading;
+    }
+
+    async function prepareGallery() {
+      const request = ++galleryLoadRequest;
+      setGalleryLoading(true);
+      stripImages.forEach((image) => { image.loading = 'eager'; });
+      await waitForImages(stripImages);
+      await nextPaint();
+      if (request !== galleryLoadRequest || !dialog.open) return;
+      strip.scrollLeft = 0;
+      updatePosition();
+      setGalleryLoading(false);
+      strip.focus();
+    }
 
     function updatePosition() {
       const currentIndex = items.reduce((closestIndex, item, itemIndex) => (
@@ -124,9 +187,7 @@
       if (dialog.open) return;
       dialog.showModal();
       document.documentElement.classList.add('gallery-is-open');
-      strip.scrollLeft = 0;
-      updatePosition();
-      strip.focus();
+      prepareGallery();
       if (historyMode === 'push') {
         history.pushState({ photoGallery: true }, '', galleryPath);
       } else if (historyMode === 'replace') {
@@ -151,6 +212,8 @@
       requestGalleryClose(dialog);
     });
     dialog.addEventListener('close', () => {
+      galleryLoadRequest += 1;
+      setGalleryLoading(true);
       document.documentElement.classList.remove('gallery-is-open');
       link.focus();
     });

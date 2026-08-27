@@ -5,7 +5,12 @@
     <h1>{{ .Title }}</h1>
   </header>
 
-  <div class="photo-groups">
+  <div class="photo-catalog-stage is-loading" data-photo-catalog-stage aria-busy="true">
+    <noscript><style>.photo-catalog-loading{display:none}.photo-catalog-stage.is-loading .photo-groups{opacity:1;pointer-events:auto}</style></noscript>
+    <div class="photo-catalog-loading" data-photo-catalog-loading role="status" aria-label="Loading photo groups">
+      <span class="photo-loader-ring" aria-hidden="true"></span>
+    </div>
+    <div class="photo-groups" data-photo-groups>
     {{ range .Pages.ByParam "gallery_order" }}
     {{ $group := . }}
     {{ $images := .Resources.Match "website-*.jpg" }}
@@ -40,19 +45,24 @@
           <button class="gallery-close" type="button" aria-label="Close {{ $group.Title }}" data-gallery-close>&times;</button>
         </header>
 
-        <div class="gallery-strip" tabindex="0" aria-label="{{ $group.Title }} photographs" data-gallery-strip>
-          {{ range $orderedImages }}
-          {{ $image := . }}
-          {{ $full := $group.Resources.GetMatch (printf "full/%s" $image.Name) }}
-          {{ $caption := "" }}
-          {{ with $group.Params.captions }}{{ $caption = index . $image.Name | default "" }}{{ end }}
-          <figure class="gallery-strip-item">
-            <button class="gallery-photo-open" type="button" data-photo-focus data-full="{{ with $full }}{{ .RelPermalink }}{{ else }}{{ $image.RelPermalink }}{{ end }}" data-alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" data-caption="{{ $caption }}">
-              <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" loading="lazy" decoding="async">
-            </button>
-            {{ with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
-          </figure>
-          {{ end }}
+        <div class="gallery-strip-stage is-loading" data-gallery-strip-stage aria-busy="true">
+          <div class="gallery-loading" data-gallery-loading role="status" aria-label="Loading {{ $group.Title }} photographs">
+            <span class="photo-loader-ring" aria-hidden="true"></span>
+          </div>
+          <div class="gallery-strip" tabindex="0" aria-label="{{ $group.Title }} photographs" data-gallery-strip>
+            {{ range $orderedImages }}
+            {{ $image := . }}
+            {{ $full := $group.Resources.GetMatch (printf "full/%s" $image.Name) }}
+            {{ $caption := "" }}
+            {{ with $group.Params.captions }}{{ $caption = index . $image.Name | default "" }}{{ end }}
+            <figure class="gallery-strip-item">
+              <button class="gallery-photo-open" type="button" data-photo-focus data-full="{{ with $full }}{{ .RelPermalink }}{{ else }}{{ $image.RelPermalink }}{{ end }}" data-alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" data-caption="{{ $caption }}">
+                <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" loading="lazy" decoding="async">
+              </button>
+              {{ with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
+            </figure>
+            {{ end }}
+          </div>
         </div>
         <p class="gallery-progress" data-gallery-progress aria-live="polite">
           <span data-gallery-position>1 / {{ len $orderedImages }}</span>
@@ -61,6 +71,7 @@
     </dialog>
     {{ end }}
     {{ end }}
+    </div>
   </div>
 </div>
 
@@ -68,11 +79,11 @@
   <button class="photo-focus-close" type="button" aria-label="Return to gallery" data-photo-focus-close>&times;</button>
   <div class="photo-focus-stage" data-photo-focus-stage aria-busy="false">
     <div class="photo-focus-loading" data-photo-focus-loading role="status" aria-label="Loading photograph">
-      <span aria-hidden="true"></span>
+      <span class="photo-loader-ring" aria-hidden="true"></span>
     </div>
     <img data-photo-focus-image alt="" role="button" tabindex="0" draggable="false" aria-label="Magnify photograph">
   </div>
   <p data-photo-focus-caption hidden></p>
 </dialog>
-<script src="{{ "gallery.js" | relURL }}?v=6" defer></script>
+<script src="{{ "gallery.js" | relURL }}?v=7" defer></script>
 {{ end }}
