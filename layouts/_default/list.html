@@ -1,16 +1,47 @@
 {{ define "main" }}
-<header class="site-header">
-  <h1><a href="{{ "" | relURL }}">{{ .Site.Title }}</a></h1>
-  <nav class="site-nav">
-    <a href="{{ "about/" | relURL }}">about me</a>
+<div class="home-shell">
+  <header class="home-intro">
+    <h1><a href="{{ "" | relURL }}">{{ .Site.Title }}</a></h1>
+  </header>
+
+  <nav class="home-menu" aria-label="Explore this site" data-accordion-group>
+    <section class="menu-item" data-accordion-item>
+      <button class="menu-trigger" type="button" aria-expanded="false" aria-controls="panel-about" data-accordion-trigger>
+        <span>about me</span>
+        <span class="menu-symbol" aria-hidden="true"></span>
+      </button>
+      <div class="menu-panel" id="panel-about" aria-hidden="true" inert data-accordion-panel>
+        <div class="menu-panel-inner about-preview">
+          {{ with .Site.GetPage "/about" }}
+          {{ .Content }}
+          <a class="quiet-link" href="{{ .RelPermalink }}">read more <span aria-hidden="true">&rarr;</span></a>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <section class="menu-item" data-accordion-item>
+      <button class="menu-trigger" type="button" aria-expanded="false" aria-controls="panel-work" data-accordion-trigger>
+        <span>stuff I&rsquo;ve made</span>
+        <span class="menu-symbol" aria-hidden="true"></span>
+      </button>
+      <div class="menu-panel" id="panel-work" aria-hidden="true" inert data-accordion-panel>
+        <div class="menu-panel-inner work-menu">
+          <p class="work-note">(<a href="{{ "why-i-make-things/" | relURL }}">why I make things</a>)</p>
+
+          <a class="work-item work-link" href="{{ "fiction/" | relURL }}">Fiction</a>
+          <a class="work-item work-link" href="{{ "nonfiction/" | relURL }}">Nonfiction</a>
+          <a class="work-item work-link" href="{{ "photos/" | relURL }}">Photos</a>
+          <a class="work-item work-link" href="{{ "food/" | relURL }}">Food</a>
+          <a class="work-item work-link" href="{{ "research/" | relURL }}">Research / work</a>
+        </div>
+      </div>
+    </section>
   </nav>
-</header>
-<ul class="posts">
-  {{ range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
-  <li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-  </li>
-  {{ end }}
-</ul>
+
+  <footer class="home-footer">
+    <time datetime="{{ now.Format "2006-01-02" }}">updated {{ now.Format "Jan 2, 2006" }}</time>
+  </footer>
+</div>
+<script src="{{ "home.js" | relURL }}" defer></script>
 {{ end }}

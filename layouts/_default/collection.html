@@ -1,0 +1,19 @@
+{{ define "main" }}
+<a class="back" href="{{ "" | relURL }}">&larr; {{ .Site.Title }}</a>
+<header class="post-header">
+  <h1>{{ .Title }}</h1>
+</header>
+
+{{ $collection := .Params.collection }}
+{{ $pages := where .Site.RegularPages "Params.writing_type" $collection }}
+{{ with $pages }}
+<ul class="posts">
+  {{ range .ByDate.Reverse }}
+  <li>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006" }}</time>
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+  </li>
+  {{ end }}
+</ul>
+{{ end }}
+{{ end }}

@@ -20,3 +20,4 @@ disableKinds = ["taxonomy", "term"]
     ordered = false
 
 [params]
+  description = "A small collection of writing, photos, food, and research."
