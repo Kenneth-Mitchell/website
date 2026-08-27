@@ -4,6 +4,7 @@
   const focusDialog = document.querySelector('[data-photo-focus-dialog]');
   const focusStage = focusDialog.querySelector('[data-photo-focus-stage]');
   const focusImage = focusDialog.querySelector('[data-photo-focus-image]');
+  const focusLoading = focusDialog.querySelector('[data-photo-focus-loading]');
   const focusCaption = focusDialog.querySelector('[data-photo-focus-caption]');
   const focusButtons = document.querySelectorAll('[data-photo-focus]');
   let focusScale = 1;
@@ -15,6 +16,13 @@
   let dragOriginY = 0;
   let focusDragging = false;
   let focusMoved = false;
+  let focusRequest = 0;
+
+  function setFocusLoading(isLoading) {
+    focusDialog.classList.toggle('is-loading', isLoading);
+    focusStage.setAttribute('aria-busy', String(isLoading));
+    focusLoading.hidden = !isLoading;
+  }
 
   function clampFocusPan() {
     const maxX = Math.max(0, (focusImage.offsetWidth * focusScale - focusStage.clientWidth) / 2);
@@ -149,15 +157,19 @@
 
   focusButtons.forEach((button) => {
     button.addEventListener('click', () => {
-      focusImage.src = button.dataset.full;
+      const request = ++focusRequest;
+      focusImage.removeAttribute('src');
+      focusImage.style.removeProperty('width');
+      focusImage.style.removeProperty('height');
       focusImage.alt = button.dataset.alt;
       focusCaption.textContent = button.dataset.caption;
       focusCaption.hidden = !button.dataset.caption;
+      setFocusLoading(true);
       focusDialog.showModal();
       resetFocus();
       requestAnimationFrame(() => {
-        fitFocusImage();
-        focusImage.focus();
+        if (request !== focusRequest || !focusDialog.open) return;
+        focusImage.src = button.dataset.full;
       });
     });
   });
@@ -166,7 +178,12 @@
   focusDialog.addEventListener('click', (event) => {
     if (event.target === focusDialog || event.target === focusStage) focusDialog.close();
   });
-  focusDialog.addEventListener('close', resetFocus);
+  focusDialog.addEventListener('close', () => {
+    focusRequest += 1;
+    focusImage.removeAttribute('src');
+    setFocusLoading(false);
+    resetFocus();
+  });
 
   focusImage.addEventListener('click', toggleFocusZoom);
   focusImage.addEventListener('keydown', (event) => {
@@ -205,8 +222,14 @@
   focusImage.addEventListener('pointercancel', endFocusDrag);
   focusImage.addEventListener('load', () => {
     if (!focusDialog.open) return;
+    setFocusLoading(false);
     resetFocus();
     fitFocusImage();
+    focusImage.focus();
+  });
+  focusImage.addEventListener('error', () => {
+    if (!focusDialog.open) return;
+    setFocusLoading(false);
   });
   window.addEventListener('resize', () => {
     if (!focusDialog.open) return;

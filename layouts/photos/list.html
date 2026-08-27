@@ -66,10 +66,13 @@
 
 <dialog class="photo-focus-dialog" data-photo-focus-dialog aria-label="Expanded photograph">
   <button class="photo-focus-close" type="button" aria-label="Return to gallery" data-photo-focus-close>&times;</button>
-  <div class="photo-focus-stage" data-photo-focus-stage>
+  <div class="photo-focus-stage" data-photo-focus-stage aria-busy="false">
+    <div class="photo-focus-loading" data-photo-focus-loading role="status" aria-label="Loading photograph">
+      <span aria-hidden="true"></span>
+    </div>
     <img data-photo-focus-image alt="" role="button" tabindex="0" draggable="false" aria-label="Magnify photograph">
   </div>
   <p data-photo-focus-caption hidden></p>
 </dialog>
-<script src="{{ "gallery.js" | relURL }}?v=4" defer></script>
+<script src="{{ "gallery.js" | relURL }}?v=5" defer></script>
 {{ end }}
