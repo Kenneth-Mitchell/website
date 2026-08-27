@@ -62,7 +62,6 @@
     }, { passive: false, capture: true });
 
     strip.addEventListener('scroll', updatePosition, { passive: true });
-    strip.addEventListener('touchstart', () => progress.classList.add('is-used'), { passive: true });
 
     strip.addEventListener('keydown', (event) => {
       if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;

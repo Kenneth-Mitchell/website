@@ -849,7 +849,6 @@ hr {
     font-size: 0.65rem;
     text-align: center;
   }
-  .gallery-progress.is-used .gallery-swipe-hint { display: none; }
   .photo-focus-dialog {
     padding:
       max(1rem, env(safe-area-inset-top))
