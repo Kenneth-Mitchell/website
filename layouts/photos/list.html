@@ -70,8 +70,12 @@
             {{ end }}
           </div>
         </div>
-        <p class="gallery-progress" data-gallery-progress aria-live="polite">
-          <span data-gallery-position>1 / {{ len $orderedImages }}</span>
+        <p class="gallery-progress" data-gallery-progress aria-live="polite" aria-label="Image 1 of {{ len $orderedImages }}">
+          <span class="gallery-dots" aria-hidden="true">
+            {{ range $index, $_ := $orderedImages }}
+            <span class="gallery-dot{{ if eq $index 0 }} is-active{{ end }}" data-gallery-dot></span>
+            {{ end }}
+          </span>
         </p>
       </div>
     </dialog>
@@ -91,5 +95,5 @@
   </div>
   <p data-photo-focus-caption hidden></p>
 </dialog>
-<script src="{{ "gallery.js" | relURL }}?v=8" defer></script>
+<script src="{{ "gallery.js" | relURL }}?v=9" defer></script>
 {{ end }}

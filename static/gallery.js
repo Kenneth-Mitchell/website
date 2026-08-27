@@ -149,7 +149,7 @@
     const items = Array.from(strip.querySelectorAll('.gallery-strip-item'));
     const stripImages = Array.from(strip.querySelectorAll('img'));
     const progress = dialog.querySelector('[data-gallery-progress]');
-    const position = progress.querySelector('[data-gallery-position]');
+    const dots = Array.from(progress.querySelectorAll('[data-gallery-dot]'));
 
     function loadGalleryImages() {
       stripImages.forEach((image) => {
@@ -165,7 +165,8 @@
           ? itemIndex
           : closestIndex
       ), 0);
-      position.textContent = `${currentIndex + 1} / ${items.length}`;
+      dots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === currentIndex));
+      progress.setAttribute('aria-label', `Image ${currentIndex + 1} of ${items.length}`);
     }
 
     function openGallery(historyMode = 'none') {

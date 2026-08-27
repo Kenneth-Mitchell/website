@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
 {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
-<link rel="stylesheet" href="{{ "style.css" | relURL }}?v=9">
+<link rel="stylesheet" href="{{ "style.css" | relURL }}?v=10">
 </head>
 <body>
 <main>
