@@ -1,8 +1,5 @@
 ---
 title: "Isla Mujeres"
-slug: "isla-mujeres"
-aliases:
-  - "/photos/october-25-2025/"
 description: >-
   These photos were taken while solo-exploring Isla Mujeres. The island has
   gems of vibrant color, set against monotonous, run-down, dirty buildings. I

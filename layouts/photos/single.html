@@ -1,34 +1,3 @@
 {{ define "main" }}
-{{ $galleryKey := path.Base (strings.TrimSuffix "/" .RelPermalink) }}
-{{ $catalogURL := printf "%s?group=%s" ("photos/" | relURL) $galleryKey }}
-<script>window.location.replace({{ $catalogURL | jsonify | safeJS }});</script>
-{{ $group := . }}
-{{ $images := .Resources.Match "website-*.jpg" }}
-{{ $orderedImages := slice }}
-{{ with .Resources.GetMatch .Params.cover }}{{ $orderedImages = $orderedImages | append . }}{{ end }}
-{{ range $images }}{{ if ne .Name $group.Params.cover }}{{ $orderedImages = $orderedImages | append . }}{{ end }}{{ end }}
-<div class="photo-page">
-  <a class="back" href="{{ "photos/" | relURL }}">&larr; Photos</a>
-  <header class="photo-header">
-    <h1>{{ .Title }}</h1>
-    <time class="gallery-date" datetime="{{ .Date.Format "2006-01" }}">{{ .Date.Format "Jan 2006" }}</time>
-    {{ with .Description }}<p>{{ . }}</p>{{ end }}
-  </header>
-
-  <div class="photo-mosaic">
-    {{ range $orderedImages }}
-    {{ $image := . }}
-    {{ $full := $group.Resources.GetMatch (printf "full/%s" $image.Name) }}
-    {{ $display := .Resize "720x webp q82" }}
-    {{ $caption := "" }}
-    {{ with $group.Params.captions }}{{ $caption = index . $image.Name | default "" }}{{ end }}
-    <figure class="photo-tile">
-      <a class="photo-open" href="{{ with $full }}{{ .RelPermalink }}{{ else }}{{ $image.RelPermalink }}{{ end }}">
-        <img src="{{ $display.RelPermalink }}" width="{{ $display.Width }}" height="{{ $display.Height }}" alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" loading="lazy" decoding="async">
-      </a>
-      {{ with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}
-    </figure>
-    {{ end }}
-  </div>
-</div>
+{{ partial "photo-catalog.html" .Parent }}
 {{ end }}

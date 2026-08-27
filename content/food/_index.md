@@ -1,5 +1,5 @@
 ---
 title: "Food"
-layout: "collection"
+type: "collection"
 collection: "food"
 ---

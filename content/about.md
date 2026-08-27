@@ -1,6 +1,6 @@
 ---
 title: "About me"
-layout: "about"
+type: "about"
 summary: "I live in San Francisco and work at [axiom](https://axi.om) using AI to solve drug toxicity."
 now: "I live in San Francisco and work at [axiom](https://axi.om) using AI to solve drug toxicity."
 timeline:

@@ -1,5 +1,5 @@
 ---
 title: "Research / work"
-layout: "collection"
+type: "collection"
 collection: "research"
 ---

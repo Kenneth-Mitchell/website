@@ -1,5 +1,5 @@
 ---
 title: "Fiction"
-layout: "collection"
+type: "collection"
 collection: "fiction"
 ---

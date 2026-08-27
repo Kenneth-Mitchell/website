@@ -10,17 +10,6 @@
     panel.setAttribute('aria-hidden', String(!open));
     panel.toggleAttribute('inert', !open);
     panel.classList.toggle('is-open', open);
-
-    if (!open) {
-      item.querySelectorAll('[data-accordion-trigger]').forEach((nestedTrigger) => {
-        nestedTrigger.setAttribute('aria-expanded', 'false');
-      });
-      item.querySelectorAll('[data-accordion-panel]').forEach((nestedPanel) => {
-        nestedPanel.setAttribute('aria-hidden', 'true');
-        nestedPanel.setAttribute('inert', '');
-        nestedPanel.classList.remove('is-open');
-      });
-    }
   }
 
   groups.forEach((group) => {

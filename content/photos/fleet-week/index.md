@@ -1,8 +1,5 @@
 ---
 title: "Fleet Week"
-slug: "fleet-week"
-aliases:
-  - "/photos/october-11-2025/"
 description: >-
   This thumbnail photo is probably the best I have ever taken as of 2026.
   Fleet Week was a goldmine for photos: lots of people in the same place,

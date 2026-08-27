@@ -4,8 +4,7 @@
   <h1>{{ .Title }}</h1>
 </header>
 
-{{ $collection := .Params.collection }}
-{{ $pages := where .Site.RegularPages "Params.writing_type" $collection }}
+{{ $pages := where .Site.RegularPages "Params.writing_type" .Params.collection }}
 {{ with $pages }}
 <ul class="posts">
   {{ range .ByDate.Reverse }}

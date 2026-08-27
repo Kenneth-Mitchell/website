@@ -1,0 +1,12 @@
+{{ define "main" }}
+<a class="back" href="{{ "" | relURL }}">&larr; {{ .Site.Title }}</a>
+<header class="post-header">
+  <h1>{{ .Title }}</h1>
+</header>
+
+<nav class="category-list" aria-label="{{ .Title }} categories">
+  {{ range .RegularPages.ByWeight }}
+  <a class="work-item work-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
+  {{ end }}
+</nav>
+{{ end }}

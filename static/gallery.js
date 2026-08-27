@@ -9,7 +9,7 @@
   const focusLoading = focusDialog.querySelector('[data-photo-focus-loading]');
   const focusCaption = focusDialog.querySelector('[data-photo-focus-caption]');
   const focusButtons = document.querySelectorAll('[data-photo-focus]');
-  const catalogPath = window.location.pathname;
+  const catalogPath = document.querySelector('[data-photo-catalog-path]').dataset.photoCatalogPath;
   const galleryEntries = [];
   let focusScale = 1;
   let focusX = 0;
@@ -259,23 +259,16 @@
     });
   });
 
-  function syncGalleryToLocation() {
+  function syncGalleryToLocation(historyMode = 'none') {
     const entry = galleryEntries.find(({ galleryPath }) => galleryPath === window.location.pathname);
     galleryEntries.forEach(({ dialog }) => {
       if (dialog.open && dialog !== entry?.dialog) closeGallery(dialog);
     });
-    if (entry && !entry.dialog.open) entry.openGallery('none');
+    if (entry && !entry.dialog.open) entry.openGallery(historyMode);
   }
 
-  window.addEventListener('popstate', syncGalleryToLocation);
-
-  const directGallery = new URLSearchParams(window.location.search).get('group');
-  if (directGallery) {
-    const entry = galleryEntries.find(({ galleryPath }) => (
-      galleryPath.split('/').filter(Boolean).pop() === directGallery
-    ));
-    if (entry) entry.openGallery('replace');
-  }
+  window.addEventListener('popstate', () => syncGalleryToLocation());
+  syncGalleryToLocation(window.location.pathname === catalogPath ? 'none' : 'replace');
 
   focusButtons.forEach((button) => {
     button.addEventListener('click', () => {

@@ -1,5 +1,5 @@
 ---
 title: "Nonfiction"
-layout: "collection"
+type: "collection"
 collection: "nonfiction"
 ---

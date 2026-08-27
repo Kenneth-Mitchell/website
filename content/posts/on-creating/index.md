@@ -3,8 +3,6 @@ title: "On Creating"
 date: 2026-08-26
 draft: false
 writing_type: nonfiction
-aliases:
-  - /why-i-make-things/
 ---
 
 I like to challenge myself by answering vague and difficult questions in a clear and coherent way. In many ways, this is what philosophers do: “Philosophy is the ungainly attempt to tackle questions that come naturally to children, using methods that come naturally to lawyers.” — David Hills

@@ -1,6 +1,5 @@
 ---
 title: "Port Vendres"
-slug: "port-vendres"
 description: >-
   As is typical for me, I found myself transfixed by the ocean. The way the
   water caught the sunlight gave it an almost velvet texture. The water
