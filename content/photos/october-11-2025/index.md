@@ -7,5 +7,6 @@ description: >-
   the reactions of people looking at those things.
 date: 2025-10-11
 cover: "website-54.jpg"
+icon_color: "white"
 gallery_order: 2
 ---

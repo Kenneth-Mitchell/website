@@ -7,5 +7,6 @@ description: >-
   The move ended up being very much worth it.
 date: 2025-09-27
 cover: "website-44.jpg"
+icon_color: "black"
 gallery_order: 4
 ---

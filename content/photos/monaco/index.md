@@ -7,5 +7,6 @@ description: >-
   almost liminal — I'm somewhere serene, but that serenity is wrong in some way.
 date: 2025-07-06T11:38:36
 cover: "website-42.jpg"
+icon_color: "white"
 gallery_order: 5
 ---

@@ -8,5 +8,6 @@ description: >-
   impossibly thick liquid, gliding effortlessly across.
 date: 2025-07-01
 cover: "website-17.jpg"
+icon_color: "white"
 gallery_order: 8
 ---

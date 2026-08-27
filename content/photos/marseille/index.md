@@ -6,5 +6,6 @@ description: >-
   beauty, ascending to the sky, is a bird in the form of an angel.
 date: 2025-07-03
 cover: "website-27.jpg"
+icon_color: "white"
 gallery_order: 7
 ---

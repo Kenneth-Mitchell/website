@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $group := . }}
-{{ $images := .Resources.ByType "image" }}
+{{ $images := .Resources.Match "website-*.jpg" }}
 {{ $orderedImages := slice }}
 {{ with .Resources.GetMatch .Params.cover }}{{ $orderedImages = $orderedImages | append . }}{{ end }}
 {{ range $images }}{{ if ne .Name $group.Params.cover }}{{ $orderedImages = $orderedImages | append . }}{{ end }}{{ end }}
@@ -15,11 +15,12 @@
   <div class="photo-mosaic">
     {{ range $orderedImages }}
     {{ $image := . }}
+    {{ $full := $group.Resources.GetMatch (printf "full/%s" $image.Name) }}
     {{ $display := .Resize "720x webp q82" }}
     {{ $caption := "" }}
     {{ with $group.Params.captions }}{{ $caption = index . $image.Name | default "" }}{{ end }}
     <figure class="photo-tile">
-      <a class="photo-open" href="{{ $image.RelPermalink }}">
+      <a class="photo-open" href="{{ with $full }}{{ .RelPermalink }}{{ else }}{{ $image.RelPermalink }}{{ end }}">
         <img src="{{ $display.RelPermalink }}" width="{{ $display.Width }}" height="{{ $display.Height }}" alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" loading="lazy" decoding="async">
       </a>
       {{ with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}

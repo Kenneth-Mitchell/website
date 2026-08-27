@@ -8,7 +8,7 @@
   <div class="photo-groups">
     {{ range .Pages.ByParam "gallery_order" }}
     {{ $group := . }}
-    {{ $images := .Resources.ByType "image" }}
+    {{ $images := .Resources.Match "website-*.jpg" }}
     {{ $orderedImages := slice }}
     {{ with .Resources.GetMatch .Params.cover }}{{ $orderedImages = $orderedImages | append . }}{{ end }}
     {{ range $images }}{{ if ne .Name $group.Params.cover }}{{ $orderedImages = $orderedImages | append . }}{{ end }}{{ end }}
@@ -18,7 +18,7 @@
       <a class="photo-group-link" href="{{ $group.RelPermalink }}" aria-haspopup="dialog" data-gallery-open>
         <span class="photo-cover">
           <img src="{{ $cover.RelPermalink }}" width="{{ $cover.Width }}" height="{{ $cover.Height }}" alt="{{ $group.Title }}" loading="eager" decoding="async">
-          <span class="photo-count" aria-label="{{ len $images }} {{ if eq (len $images) 1 }}photograph{{ else }}photographs{{ end }} in this set">
+          <span class="photo-count photo-count--{{ $group.Params.icon_color | default "white" }}" aria-label="{{ len $images }} {{ if eq (len $images) 1 }}photograph{{ else }}photographs{{ end }} in this set">
             {{/* Google Material Symbols "filter_none", Apache 2.0 */}}
             <svg aria-hidden="true" viewBox="0 -960 960 960" focusable="false">
               <path transform="translate(960 0) scale(-1 1)" d="M320-240q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z"></path>
@@ -43,10 +43,11 @@
         <div class="gallery-strip" tabindex="0" aria-label="{{ $group.Title }} photographs" data-gallery-strip>
           {{ range $orderedImages }}
           {{ $image := . }}
+          {{ $full := $group.Resources.GetMatch (printf "full/%s" $image.Name) }}
           {{ $caption := "" }}
           {{ with $group.Params.captions }}{{ $caption = index . $image.Name | default "" }}{{ end }}
           <figure class="gallery-strip-item">
-            <button class="gallery-photo-open" type="button" data-photo-focus data-full="{{ $image.RelPermalink }}" data-alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" data-caption="{{ $caption }}">
+            <button class="gallery-photo-open" type="button" data-photo-focus data-full="{{ with $full }}{{ .RelPermalink }}{{ else }}{{ $image.RelPermalink }}{{ end }}" data-alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" data-caption="{{ $caption }}">
               <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ with $caption }}{{ . }}{{ else }}Photograph from {{ $group.Title }}{{ end }}" loading="lazy" decoding="async">
             </button>
             {{ with $caption }}<figcaption>{{ . }}</figcaption>{{ end }}

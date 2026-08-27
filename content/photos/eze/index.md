@@ -8,5 +8,6 @@ description: >-
   mountains, the disparate homes, and the far-reaching, misty ocean.
 date: 2025-07-06T09:24:11
 cover: "website-29.jpg"
+icon_color: "white"
 gallery_order: 6
 ---

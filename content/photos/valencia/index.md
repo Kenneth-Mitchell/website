@@ -8,5 +8,6 @@ description: >-
   city and the things I found.
 date: 2025-06-28
 cover: "website-04.jpg"
+icon_color: "black"
 gallery_order: 9
 ---

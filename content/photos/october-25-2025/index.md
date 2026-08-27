@@ -7,5 +7,6 @@ description: >-
   fun: I like when photos tell stories.
 date: 2025-10-25
 cover: "website-58.jpg"
+icon_color: "white"
 gallery_order: 3
 ---
