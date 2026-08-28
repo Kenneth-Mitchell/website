@@ -4,3 +4,4 @@ resources/_gen/
 .hugo_cache/
 .DS_Store
 node_modules/
+content/.obsidian/

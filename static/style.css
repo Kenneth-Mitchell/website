@@ -626,8 +626,38 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; line-height: 1.3; }
 
 .photo-focus-close {
   position: fixed;
+  z-index: 2;
   top: 1rem;
   right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  background: transparent;
+  font-size: 0;
+  opacity: 0.72;
+  transition: opacity 160ms ease;
+}
+
+.photo-focus-close::before,
+.photo-focus-close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.9rem;
+  height: 1px;
+  background: currentColor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.photo-focus-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.photo-focus-close:hover,
+.photo-focus-close:focus-visible {
+  background: transparent;
+  opacity: 1;
 }
 
 @keyframes overlay-in {
@@ -678,6 +708,94 @@ ul.posts time {
 
 ul.posts a { text-decoration: none; }
 ul.posts a:hover { text-decoration: underline; }
+
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.9rem;
+  margin: 0 0 1.5rem;
+}
+
+.tag-filter-button {
+  position: relative;
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+  background: transparent;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.tag-filter-button::after {
+  content: attr(data-description);
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 2rem));
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--rule);
+  color: var(--text);
+  background: var(--bg);
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: none;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-0.2rem);
+  transition: opacity 140ms ease, transform 140ms ease, visibility 0s linear 140ms;
+}
+
+.tag-filter-button:hover::after,
+.tag-filter-button:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.tag-filter-button:hover,
+.tag-filter-button:focus-visible {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tag-filter-button.is-active {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.nonfiction-list .nonfiction-item {
+  align-items: flex-start;
+}
+
+.nonfiction-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.nonfiction-tags,
+.tag-filter-empty {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.tag-filter-empty {
+  margin: 0;
+}
+
+.nonfiction-item[hidden],
+.tag-filter-empty[hidden] {
+  display: none;
+}
 
 .back {
   display: inline-block;
@@ -892,10 +1010,53 @@ article pre code {
   font-size: 1em;
 }
 
-article img { max-width: 100%; height: auto; }
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 2rem auto;
+  cursor: zoom-in;
+}
+
+.prose img:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.prose img + em {
+  display: block;
+  max-width: 34rem;
+  margin: -1.25rem auto 2rem;
+  color: var(--muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.prose figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.prose figure img {
+  margin: 0 auto 0.75rem;
+}
+
+.prose figcaption {
+  color: var(--muted);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
 
 article ul, article ol { padding-left: 1.5rem; }
 article li { margin: 0.25rem 0; }
+
+.post-reading-buffer {
+  height: max(10rem, 38vh);
+  pointer-events: none;
+}
 
 hr {
   border: none;

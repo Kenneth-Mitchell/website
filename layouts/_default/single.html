@@ -1,5 +1,9 @@
 {{ define "main" }}
+{{ if eq .Params.writing_type "nonfiction" }}
+<a class="back" href="{{ "nonfiction/" | relURL }}">← Nonfiction</a>
+{{ else }}
 <a class="back" href="{{ "" | relURL }}">← {{ .Site.Title }}</a>
+{{ end }}
 <header class="post-header">
   <h1>{{ .Title }}</h1>
   {{ if eq .Section "posts" }}
@@ -19,9 +23,14 @@
   {{ .TableOfContents }}
 </nav>
 {{ end }}
-<article>
+<article class="prose">
 {{ .Content }}
 </article>
+{{ if eq .Section "posts" }}
+<div class="post-reading-buffer" aria-hidden="true"></div>
+{{ end }}
+<script src="{{ "image-focus.js" | relURL }}?v=2" defer></script>
+<script src="{{ "image-lightbox.js" | relURL }}?v=2" defer></script>
 {{ if .Params.toc }}
 <script src="{{ "toc.js" | relURL }}" defer></script>
 {{ end }}

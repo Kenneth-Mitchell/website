@@ -3,6 +3,7 @@ title: "The G in AGI Stands for Guillotine"
 date: 2026-04-10
 draft: true
 writing_type: nonfiction
+tags: ["AI", "ethics", "philosophy"]
 toc: true
 ---
 ### The Guillotine

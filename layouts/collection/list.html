@@ -6,13 +6,57 @@
 
 {{ $pages := where .Site.RegularPages "Params.writing_type" .Params.collection }}
 {{ with $pages }}
-<ul class="posts">
+{{ if eq $.Params.collection "nonfiction" }}
+  {{ $tags := slice }}
+  {{ range . }}
+    {{ range .Params.tags }}
+      {{ $tags = $tags | append . }}
+    {{ end }}
+  {{ end }}
+  {{ $tags = $tags | uniq }}
+  {{ $sortedTags := slice }}
+  {{ range $tags }}
+    {{ $sortedTags = $sortedTags | append (dict "name" . "sortKey" (. | lower)) }}
+  {{ end }}
+  {{ $sortedTags = sort $sortedTags "sortKey" }}
+
+  {{ with $sortedTags }}
+  <nav class="tag-filter" aria-label="Filter nonfiction by tag" data-tag-filter>
+    <button type="button" class="tag-filter-button is-active" data-filter="all" data-description="Show every nonfiction piece." aria-label="all — Show every nonfiction piece." aria-pressed="true">all</button>
+    {{ range . }}
+    {{ $tag := . }}
+    {{ $description := printf "Pieces tagged %q." .name }}
+    {{ with $.Params.tag_descriptions }}
+      {{ with index . $tag.name }}{{ $description = . }}{{ end }}
+    {{ end }}
+    <button type="button" class="tag-filter-button" data-filter="{{ .name | urlize }}" data-description="{{ $description }}" aria-label="{{ .name }} — {{ $description }}" aria-pressed="false">{{ .name }}</button>
+    {{ end }}
+  </nav>
+  {{ end }}
+{{ end }}
+
+<ul class="posts{{ if eq $.Params.collection "nonfiction" }} nonfiction-list{{ end }}"{{ if eq $.Params.collection "nonfiction" }} data-filter-list{{ end }}>
   {{ range .ByDate.Reverse }}
-  <li>
-    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006" }}</time>
+  {{ $pageTags := slice }}
+  {{ range .Params.tags }}
+    {{ $pageTags = $pageTags | append (. | urlize) }}
+  {{ end }}
+  <li{{ if eq $.Params.collection "nonfiction" }} class="nonfiction-item" data-tags="{{ delimit $pageTags "," }}"{{ end }}>
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ if eq $.Params.collection "nonfiction" }}{{ .Date.Format "2006-01-02" }}{{ else }}{{ .Date.Format "2006" }}{{ end }}</time>
+    {{ if eq $.Params.collection "nonfiction" }}
+    <div class="nonfiction-entry">
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ with .Params.tags }}<span class="nonfiction-tags">{{ delimit . " · " }}</span>{{ end }}
+    </div>
+    {{ else }}
     <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{ end }}
   </li>
   {{ end }}
 </ul>
+{{ if eq $.Params.collection "nonfiction" }}
+<p class="tag-filter-empty" data-filter-empty hidden>No pieces with that tag.</p>
+<script src="{{ "nonfiction-filter.js" | relURL }}" defer></script>
+{{ end }}
 {{ end }}
 {{ end }}
