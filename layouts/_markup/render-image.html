@@ -1,0 +1,9 @@
+{{- $destination := .Destination -}}
+{{- $imageConfig := false -}}
+{{- if strings.HasPrefix $destination "/" -}}
+  {{- $contentPath := path.Join "content" (strings.TrimPrefix "/" $destination) -}}
+  {{- if fileExists $contentPath -}}
+    {{- $imageConfig = images.Config $contentPath -}}
+  {{- end -}}
+{{- end -}}
+<img src="{{ $destination | safeURL }}" alt="{{ .Text }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ with $imageConfig }} width="{{ .Width }}" height="{{ .Height }}"{{ end }} loading="lazy" decoding="async">
