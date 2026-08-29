@@ -20,3 +20,6 @@ If you know much about me, you likely know I live a very existentialist life. Th
 I digress. My point can be summed up like this: It may appear that I spend life creating for no reason at all — that the “true” life hides between the time I spend on the frivolous creation of things which do not matter. This is a deeply conventional view which I'm sure you've heard: that work, duty, and family make up the "real life," while books or games or art belong to some frivolous fairyland outside of it. But it is in fact the opposite: the time I spend observing the world through photos, the human condition through stories, creating a home for me and my pets, or making spaces in games to have fun — these things *are* the life, while the gross mundanity that hides behind them is not life at all. I am fortunate enough that I truly enjoy the work I do — so, to me, all of these things feel like living.
 
 The things you do in life do not need some external purpose or meaning behind them; you simply need to want to do them. That is enough.
+
+![A linocut black and white print of a man looking out at the sea](/on-creating.webp)
+*Banister's View by Darrel Perkins*
